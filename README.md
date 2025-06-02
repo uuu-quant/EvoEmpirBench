@@ -14,7 +14,7 @@ Most existing spatial reasoning benchmarks focus on static or globally observabl
 │   ├── game/       # Game core logic
 │   ├── memory/     # Agent memory storage
 │   └── scripts/    # Evaluation scripts
-└── game2/          # Match-3 Puzzle game
+└── game2/          # Match-2 Puzzle game
 ```
 
 ## Game 1: Maze Navigation
