@@ -1,278 +1,133 @@
-# EvoEmpirBench
+# EvoEmpirBench: Dynamic Spatial Reasoning Benchmark
 
-Code artifact for **EvoEmpirBench: Dynamic Spatial Reasoning with Agent-ExpVer**.
+## Abstract
 
-EvoEmpirBench is a dynamic, partially observable benchmark for evaluating how language-model agents reason, plan, use tools, and adapt from experience in interactive spatial environments. The repository contains the core game environments, level assets, LLM-agent loops, experience abstraction modules, and evaluation scripts used for the Maze Navigation and Match-2 tasks.
+Most existing spatial reasoning benchmarks focus on static or globally observable environments, failing to capture the challenges of long-horizon reasoning and memory utilization under partial observability and dynamic changes. We introduce two dynamic spatial benchmarks—locally observable maze navigation and match-2 elimination—that systematically evaluate models' abilities in spatial understanding and adaptive planning when local perception, environment feedback, and global objectives are tightly coupled. Each action triggers structural changes in the environment, requiring continuous update of cognition and strategy. We further propose a subjective experience-based memory mechanism for cross-task experience transfer and validation. Experiments show that our benchmarks reveal key limitations of mainstream models in dynamic spatial reasoning and long-term memory, providing a comprehensive platform for future methodological advances.
 
-**Paper:** [AAAI Proceedings](https://ojs.aaai.org/index.php/AAAI/article/view/40979) | [DOI](https://doi.org/10.1609/aaai.v40i43.40979) | [arXiv](https://arxiv.org/abs/2509.12718)
+## Repository Structure
 
-![Agent-ExpVer workflow](docs/assets/figures/agent-workflow.png)
-
-*Figure: EvoEmpirBench environments and the Agent-ExpVer workflow. GeoLink interacts with the environment, InsightForce abstracts and validates subjective experience, and TruthWeaver maintains verified truth knowledge for later episodes.*
-
-## Paper Overview
-
-Existing spatial-reasoning benchmarks are often static, fully observable, or weakly coupled to environment feedback. EvoEmpirBench targets a harder setting: agents must reason from local observations, update their belief as the environment changes, use tools when they matter, and optimize long-horizon goals rather than only answer a one-shot prompt.
-
-The paper makes two linked contributions:
-
-- **EvoEmpirBench**, a benchmark suite with Maze Navigation and Match-2 Elimination tasks across three difficulty levels.
-- **Agent-ExpVer**, an online experience abstraction and verification framework that improves agents without parameter updates.
-
-## Highlights
-
-- **Dynamic spatial reasoning benchmark.** Two interactive environments test long-horizon planning under local perception, environment feedback, changing states, and global objectives.
-- **Maze Navigation.** Agents navigate partially observed mazes, collect coins, avoid or defeat monsters, use tools, and reach the goal.
-- **Match-2 Elimination.** Agents clear connected color blocks on an 8x8 board while balancing limited steps, color targets, and prop usage.
-- **Agent-ExpVer.** A three-agent online learning framework that abstracts subjective experience, validates it through replay, and maintains reusable truth knowledge.
-- **Clean reproducibility artifact.** Source code and lightweight level assets are kept; generated results, private credentials, local memories, caches, and editor files are excluded.
-
-## Demo Cases
-
-Click a thumbnail to open a short gameplay clip.
-
-| Maze Navigation | Match-2 Elimination |
-| --- | --- |
-| [![Maze Navigation demo](docs/assets/demos/maze-navigation-demo.png)](docs/assets/demos/maze-navigation-demo.mp4) | [![Match-2 demo](docs/assets/demos/match2-demo.png)](docs/assets/demos/match2-demo.mp4) |
-
-The full supplementary videos can be distributed through GitHub Releases or an external artifact host if you want to keep the repository itself lightweight.
-
-## What Is Included
-
-```text
-.
-├── src/
-│   ├── agent/              # LLM agent interface, map parsing, reflection, learning, memory logic
-│   ├── config/             # Game constants, API config, centralized project paths
-│   ├── data_collector/     # Trajectory and interaction data collection
-│   ├── game/               # Maze-navigation environment and map generator
-│   ├── match_game/         # Match-2 environment, level generation, agent execution
-│   └── memory/             # Auxiliary memory utilities
-├── data/
-│   └── levels/
-│       ├── maze_eval/      # 90 maze evaluation maps plus 3 collection files
-│       ├── maze_train/     # 30 maze training maps plus 3 collection files
-│       └── match_game/     # 90 Match-2 levels across easy/medium/hard
-├── docs/assets/
-│   ├── figures/            # Paper figures used in this README
-│   └── demos/              # Lightweight demo thumbnails and video clips
-├── scripts/                # Map generation, training, evaluation, analysis, sanity checks
-├── examples/               # Human and agent play examples
-├── outputs/                # Runtime outputs, ignored by git
-├── README.md
-├── REPRODUCIBILITY.md
-├── requirements.txt
-├── pyproject.toml
-└── .env.example
+```
+/
+├── common/         # Common utilities and classes
+├── game1/          # Maze Navigation game
+│   ├── agent/      # Agent implementations
+│   ├── game/       # Game core logic
+│   ├── memory/     # Agent memory storage
+│   └── scripts/    # Evaluation scripts
+└── game2/          # Match-2 Puzzle game
 ```
 
-The single source of truth for default paths is `src/config/paths.py`.
+## Game 1: Maze Navigation
 
-## Benchmark Tasks
+### Game Overview
 
-### Maze Navigation
+Maze Navigation is a grid-based environment where agents need to navigate through mazes, find goal positions, collect coins, and avoid monsters and obstacles. The game has three difficulty levels, introducing more complex mechanics such as monsters, destructible obstacles, and special items as difficulty increases.
 
-The maze environment evaluates spatial reasoning under partial observability. The agent sees only a local field of view, takes directional movement actions, receives environment feedback, and must balance exploration, reward collection, risk, and goal completion.
+### Features
 
-| Level | Grid | Main setting |
-| --- | --- | --- |
-| Level 1 | 7x7 | 5 coins, no monsters |
-| Level 2 | 9x9 | 5 coins, 2 moving monsters |
-| Level 3 | 11x11 | 5 coins, 2 moving monsters, shovel, sword, magnet, key |
+- **Multiple Difficulty Levels**: From simple path planning to complex resource management and tactical decision-making
+- **Partial Observability**: Agents can only see a limited area of the environment around them
+- **Resource Management**: Collect items and coins, manage lives
+- **Dynamic Environment**: Moving monsters and interactive obstacles
+- **Learning Agents**: Support for GPT-based learning agents with memory and reflection mechanisms
 
-**Artifact note.** This released code follows the original three-scale maze setup above. If you compare against a manuscript snapshot that describes every maze level as 9x9, treat that sentence as stale relative to this implementation.
+### Installation and Setup
 
-### Match-2 Elimination
+1. Ensure Python 3.8+ is installed
+2. Install dependencies:
+   ```
+   pip install openai numpy matplotlib pandas
+   ```
+3. Set API key (for GPT integration):
+   ```
+   export OPENAI_API_KEY=your_api_key
+   ```
 
-The Match-2 environment evaluates planning over an 8x8 grid with four colors. The agent must clear connected same-color regions or use props while satisfying color-specific targets within limited steps.
+### Evaluating Agents
 
-| Difficulty | Step budget | Target range per color | Props |
-| --- | --- | --- | --- |
-| easy | 15-18 | 8-12 | row, column, bomb, hammer |
-| medium | 12-15 | 12-16 | row, column, bomb, hammer |
-| hard | 10-13 | 16-20 | row, column, bomb, hammer |
-
-## Agent-ExpVer
-
-Agent-ExpVer is the online learning mechanism built on top of EvoEmpirBench. It is organized as three collaborating agents:
-
-| Component | Role | Code |
-| --- | --- | --- |
-| GeoLink Agent | Interacts with the environment, selects actions, and collects trajectories | `src/agent/agent_interface.py`, `src/agent/map_processor.py` |
-| InsightForce Agent | Summarizes episode-level subjective experiences and validates whether they improve behavior | `src/agent/reflection_agent.py`, `src/agent/learning_agent.py` |
-| TruthWeaver Agent | Maintains reusable truth knowledge by inserting, merging, de-duplicating, or rejecting memories | `src/agent/memory_manager.py`, `src/memory/memory_manager.py` |
-
-At a high level, the loop is:
-
-1. Interact with a partially observable game environment.
-2. Store action histories, observations, rewards, and final metrics.
-3. Abstract subjective experience from successful or informative trajectories.
-4. Replay and validate whether the experience improves task performance.
-5. Promote verified experience into a reusable truth repository.
-6. Inject truth knowledge into later episodes through in-context prompting.
-
-## Setup
+Use the evaluation script to test agent performance:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env
+cd /game1/scripts
+./run_eval.sh --model gpt-4 --mode "Level 2" --maps_count 10
 ```
 
-Set credentials in `.env` or in your shell environment:
+Optional parameters:
+- `--model`: Specify the model to use (default: gpt-4)
+- `--mode`: Game difficulty level (Level 1, Level 2, Level 3)
+- `--maps_count`: Number of maps to evaluate
+- `--with_truth`: Use truth knowledge
+- `--full_vision`: Enable full vision mode (disables partial observability)
+
+### Analyzing Results
+
+Analyze agent performance after evaluation:
 
 ```bash
-DEFAULT_API_TYPE=openai
-OPENAI_API_KEY=your_key_here
-OPENAI_MODEL=gpt-4o
-OPENAI_BASE_URL=https://api.openai.com/v1
-
-# Optional DeepSeek-compatible configuration
-DEEPSEEK_API_KEY=your_key_here
-DEEPSEEK_MODEL=deepseek-chat
-DEEPSEEK_BASE_URL=https://api.deepseek.com
+cd /game1/scripts
+./run_analysis.sh --model gpt-4
 ```
 
-Do not commit `.env` or raw model outputs.
-
-## Quick Verification
-
-Run the lightweight project check before sharing or evaluating the artifact:
+Compare performance across multiple models:
 
 ```bash
-python scripts/check_project.py
+./run_analysis.sh --compare_models "gpt-3.5-turbo,gpt-4,claude-3"
 ```
 
-The check verifies required directories, parses level JSON files, checks maze dimensions, confirms generated artifact folders are absent, and scans source/docs for accidental `sk-...` style API key patterns.
+### Training Agents
 
-For a headless machine or server, set:
+Train agents with memory capabilities:
 
 ```bash
-export SDL_VIDEODRIVER=dummy
+cd /game1/scripts
+./run_training.sh --model gpt-4 --mode "Level 2" --iterations 3
 ```
 
-## Regenerate Level Assets
+## Game 2: Match-2 Elimination
 
-Maze evaluation maps:
+A grid-based puzzle game where agents need to match and eliminate pairs of same-colored blocks, managing resources and planning moves strategically to achieve target goals within limited steps.
 
-```bash
-python scripts/generate_maps.py --count 30 --save_dir data/levels/maze_eval
-```
+## Agent-ExpVer Framework
 
-Maze training maps:
+We present Agent-ExpVer, a three-agent framework for:
+- Environment interaction
+- Experience synthesis
+- Adaptive truth management
 
-```bash
-python scripts/generate_training_maps.py --count 10 --save_dir data/levels/maze_train
-```
+This framework drives effective online learning and markedly improves agent reasoning and interactivity in dynamic spatial environments.
 
-Match-2 levels are loaded from `data/levels/match_game`. If a difficulty folder or level file is missing, `src/match_game/general_game.py` can regenerate the missing level set.
+## Conclusion
 
-## Run Examples
+We introduce EvoEmpirBench, a benchmark for spatial and high-level reasoning in dynamic, interactive environments, featuring Maze Navigation and Match-2 tasks. We also present Agent-ExpVer, a three-agent framework for environment interaction, experience synthesis, and adaptive truth management; experiments show it drives effective online learning and markedly improves agent reasoning and interactivity.
 
-Human maze play:
+### Limitations
+Performance remains tied to model capacity—smaller models lag, and even top systems fall short of human baselines.
 
-```bash
-python examples/play_with_maps.py
-```
+### Future Work
+We will boost Agent-ExpVer's adaptability (especially for lightweight models), expand EvoEmpirBench with tasks on temporal reasoning and multi-agent collaboration, and develop advanced mechanisms for truth induction and experience management.
 
-Baseline maze evaluation:
+## File Descriptions
 
-```bash
-python scripts/evaluate_agent.py --api_type openai --model gpt-4o --mode "Level 1" --num_maps 3
-```
+### Common Modules
+- `common/gpt_client.py` - Unified interface for interacting with LLM APIs
+- `common/utils.py` - Common utility functions
 
-Agent-ExpVer maze training:
+### Game 1 Core Components
+- `game1/game/environment.py` - Maze navigation environment implementation
+- `game1/game/map_generator.py` - Maze map generator
+- `game1/game/obstacles.py` - Obstacle and interactive object classes
+- `game1/game/config.py` - Game configuration constants
+- `game1/game/game_runner.py` - Game runner
 
-```bash
-python scripts/train_agent.py --api_type openai --model gpt-4o --mode "Level 3" --num_maps 3 --max_steps 100
-```
+### Game 1 Agents
+- `game1/agent/learning_agent.py` - GPT-based learning agent
+- `game1/agent/agent_interface.py` - Agent interface definitions
+- `game1/agent/reflection_agent.py` - Agent with reflection capabilities
+- `game1/agent/map_processor.py` - Map and state processing utilities
 
-Evaluate a learning agent:
-
-```bash
-python scripts/evaluate_learning_agent.py --api_type openai --model gpt-4o --mode "Level 3" --num_maps 3
-```
-
-Match-2 agent evaluation:
-
-```bash
-python src/match_game/general_game.py --model gpt-4o --auto-run
-```
-
-All generated logs, metrics, memory files, plots, and reports are written under `outputs/`.
-
-## Evaluation Metrics
-
-Maze Navigation reports task success and behavior-level diagnostics:
-
-- `S.R.`: success rate
-- `A.S.`: average score
-- `A.St.`: average steps
-- `A.Ex.`: average exploration rate
-- `A.G.`: gold collection rate
-- `R.HP`: remaining hit points
-- `A.K.`: average monster kills
-- `A.B.`: average barrier interactions
-
-Match-2 reports completion, efficiency, and API-validity metrics:
-
-- `S.R.`: success rate
-- `A.S.`: average score
-- `R/M.S`: remaining or missing steps
-- `S./St.`: score per step
-- `C./St.`: clearance per step
-- `API E.`: API efficiency
-
-## Representative Paper Results
-
-The paper reports consistent gains from Agent-ExpVer on both games. A compact view of representative success-rate improvements is shown below; regenerate full metrics with the scripts in this repository for your own model/API setting.
-
-| Model | Maze baseline | Maze + Agent-ExpVer | Match-2 baseline | Match-2 + Agent-ExpVer |
-| --- | ---: | ---: | ---: | ---: |
-| GPT-4.1 | 73.33 | 78.89 | 40.00 | 53.33 |
-| Claude-3.7-Sonnet | 68.89 | 72.22 | 41.11 | 47.19 |
-| Gemini-2.5-Flash | 45.56 | 64.44 | 37.78 | 37.78 |
-| Qwen2.5-32B-Instruct | 42.22 | 54.44 | 33.33 | 41.11 |
-
-See `REPRODUCIBILITY.md` for notes on reproducing the evaluation setup.
-
-## Reproducibility Policy
-
-Kept in the repository:
-
-- Source code under `src/`, `scripts/`, and `examples/`
-- Lightweight benchmark levels under `data/levels/`
-- README figures and short demo clips under `docs/assets/`
-- Configuration templates such as `.env.example`
-
-Ignored or regenerated locally:
-
-- API credentials and `.env`
-- Evaluation results and model outputs
-- Agent memories, session traces, and processed data
-- Python caches, virtual environments, editor metadata, and logs
-
-See `REPRODUCIBILITY.md` for a compact reproducibility checklist.
-
-## Citation
-
-If you use EvoEmpirBench or Agent-ExpVer, please cite:
-
-```bibtex
-@inproceedings{zhao2026evoempirbench,
-  title     = {EvoEmpirBench: Dynamic Spatial Reasoning with Agent-ExpVer},
-  author    = {Zhao, Pukun and Wang, Longxiang and Wang, Miaowei and Chen, Chen and Zhou, Fanqing and Huang, Haojian},
-  booktitle = {Proceedings of the AAAI Conference on Artificial Intelligence},
-  volume    = {40},
-  number    = {43},
-  pages     = {36564--36572},
-  year      = {2026},
-  doi       = {10.1609/aaai.v40i43.40979},
-  url       = {https://doi.org/10.1609/aaai.v40i43.40979}
-}
-```
-
-## License
-
-This project is released under the MIT License. See `LICENSE` for details.
+### Game 1 Evaluation Scripts
+- `game1/scripts/evaluate_agent.py` - Agent evaluation script
+- `game1/scripts/analyze_results.py` - Results analysis script
+- `game1/scripts/run_eval.sh` - Shell script to run evaluations
+- `game1/scripts/run_analysis.sh` - Shell script to run analysis
+- `game1/scripts/run_training.sh` - Shell script to run training
