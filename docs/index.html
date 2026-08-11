@@ -572,7 +572,7 @@
       <div class="shell">
         <div class="section-heading">
           <h2>Classic Cases</h2>
-          <p>These panels are rendered from local run logs: a looping Level 3 maze trajectory and a high-scoring Match-2 rollout.</p>
+          <p>These panels are rendered from local run logs: a looping Level 3 maze trajectory and a looping Match-2 action trace.</p>
         </div>
         <div class="case-grid">
           <article class="case-card">
@@ -595,16 +595,16 @@
           <article class="case-card">
             <div class="case-top">
               <h3>Match-2: high-clearance episode</h3>
-              <span class="pill">state-rendered</span>
+              <span class="pill">trace playback</span>
             </div>
             <div class="case-body">
               <div class="canvas-wrap">
                 <canvas id="matchCanvas" width="820" height="820" aria-label="Rendered Match-2 board from a high-scoring run"></canvas>
               </div>
               <div class="metric-row">
-                <div class="metric"><strong>664</strong><span>score</span></div>
-                <div class="metric"><strong>95</strong><span>tiles cleared</span></div>
-                <div class="metric"><strong>41.5</strong><span>score per step</span></div>
+                <div class="metric"><strong id="matchScore">664</strong><span>current score</span></div>
+                <div class="metric"><strong id="matchCleared">95</strong><span>tiles cleared</span></div>
+                <div class="metric"><strong id="matchScorePerStep">41.5</strong><span>score per step</span></div>
               </div>
             </div>
           </article>
@@ -730,6 +730,7 @@
   </footer>
 
   <script src="assets/cases/hard-maze-trace.js"></script>
+  <script src="assets/cases/easy-match2-trace.js"></script>
   <script>
     const mazeCase = {
       grid: [[0,0,0,0,0,0,0,0,3],[0,5,0,5,0,0,0,0,0],[0,0,1,1,0,8,0,0,0],[0,0,0,5,0,0,0,0,0],[5,0,9,0,0,1,0,0,0],[6,0,7,0,0,1,1,1,0],[0,0,10,0,0,0,1,1,1],[0,0,0,0,0,0,6,1,0],[2,0,5,0,0,0,0,0,0]],
@@ -746,6 +747,9 @@
     let mazeTrace = window.EVOEMPIRBENCH_HARD_MAZE_TRACE || null;
     let mazeAnimationStartedAt = performance.now();
     const mazeFrameMs = 560;
+    let matchTrace = window.EVOEMPIRBENCH_EASY_MATCH_TRACE || null;
+    let matchAnimationStartedAt = performance.now();
+    const matchFrameMs = 780;
 
     function roundedRect(ctx, x, y, w, h, r) {
       const radius = Math.min(r, w / 2, h / 2);
@@ -759,6 +763,11 @@
     }
 
     function updateMazeMetric(id, value) {
+      const node = document.getElementById(id);
+      if (node) node.textContent = value;
+    }
+
+    function updateMetric(id, value) {
       const node = document.getElementById(id);
       if (node) node.textContent = value;
     }
@@ -915,46 +924,105 @@
       updateMazeMetric("mazeTools", frame.tools ? `${countTools(frame.tools)}/4` : "3/4");
     }
 
-    function drawMatch() {
+    function getMatchPlayback(now) {
+      const frames = matchTrace && Array.isArray(matchTrace.frames) ? matchTrace.frames : [];
+      if (!frames.length) return null;
+      const elapsed = Math.max(0, now - matchAnimationStartedAt);
+      const phase = (elapsed / matchFrameMs) % frames.length;
+      const index = Math.floor(phase);
+      return {
+        frame: frames[index],
+        index,
+        phase: phase - index,
+        total: frames.length
+      };
+    }
+
+    function isClearedCell(cells, row, col) {
+      return cells.some(([r, c]) => r === row && c === col);
+    }
+
+    function drawMatch(now = performance.now()) {
       const canvas = document.getElementById("matchCanvas");
       const ctx = canvas.getContext("2d");
       const size = canvas.width;
+      const playback = getMatchPlayback(now);
+      const frame = playback ? playback.frame : null;
+      const clearPhase = frame && playback.phase >= 0.34 && playback.phase < 0.62;
+      const afterPhase = frame && playback.phase >= 0.62;
+      const board = frame ? (afterPhase ? frame.afterBoard : frame.beforeBoard) : matchCase.board;
+      const clearCells = frame ? frame.clearCells : [];
+      const action = frame ? frame.action : null;
+      const displayScore = frame ? (afterPhase ? frame.scoreAfter : frame.scoreBefore) : 664;
+      const displayCounts = frame ? (afterPhase ? frame.countsAfter : frame.countsBefore) : matchCase.counts;
+      const displaySteps = frame ? (afterPhase ? frame.stepsAfter : frame.stepsBefore) : 0;
+      const targets = matchTrace ? matchTrace.targets : matchCase.targets;
       ctx.clearRect(0, 0, size, size);
       ctx.fillStyle = "#f6f9fd";
       ctx.fillRect(0, 0, size, size);
 
-      const pad = 50;
-      const n = matchCase.board.length;
-      const cell = (size - pad * 2) / n;
+      const n = board.length;
+      const padX = 50;
+      const topPad = 76;
+      const bottomPad = 58;
+      const cell = Math.min((size - padX * 2) / n, (size - topPad - bottomPad) / n);
+      const boardLeft = (size - cell * n) / 2;
+      const boardTop = topPad;
       const colors = {A: "#e95464", B: "#7bd5ce", C: "#a8d885", D: "#f2cf5b"};
 
       for (let r = 0; r < n; r += 1) {
         for (let c = 0; c < n; c += 1) {
-          const x = pad + c * cell;
-          const y = pad + r * cell;
-          const key = matchCase.board[r][c];
-          ctx.fillStyle = colors[key];
+          const x = boardLeft + c * cell;
+          const y = boardTop + r * cell;
+          const key = board[r][c];
+          const clearing = clearPhase && isClearedCell(clearCells, r, c);
+          ctx.fillStyle = clearing ? "#ffffff" : (colors[key] || "#ffffff");
           roundedRect(ctx, x + 5, y + 5, cell - 10, cell - 10, 10);
           ctx.fill();
           ctx.strokeStyle = "rgba(23, 32, 51, 0.25)";
           ctx.lineWidth = 2;
           ctx.stroke();
-          ctx.fillStyle = "#172033";
-          ctx.font = `800 ${Math.max(18, cell * 0.34)}px ui-sans-serif`;
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-          ctx.fillText(key, x + cell / 2, y + cell / 2);
+          if (clearing) {
+            ctx.strokeStyle = "rgba(230, 80, 91, 0.9)";
+            ctx.lineWidth = 4;
+            roundedRect(ctx, x + 12, y + 12, cell - 24, cell - 24, 8);
+            ctx.stroke();
+          } else if (key) {
+            ctx.fillStyle = "#172033";
+            ctx.font = `800 ${Math.max(18, cell * 0.34)}px ui-sans-serif`;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillText(key, x + cell / 2, y + cell / 2);
+          }
         }
+      }
+
+      if (frame && action && action.pos) {
+        const [r, c] = action.pos;
+        const x = boardLeft + c * cell;
+        const y = boardTop + r * cell;
+        ctx.strokeStyle = action.type === "bomb" ? "#e6505b" : "#456fd6";
+        ctx.lineWidth = 6;
+        roundedRect(ctx, x + 9, y + 9, cell - 18, cell - 18, 10);
+        ctx.stroke();
       }
 
       ctx.fillStyle = "#172033";
       ctx.font = "800 28px ui-sans-serif";
       ctx.textAlign = "left";
-      ctx.fillText("Easy level 05 final board", pad, 32);
+      ctx.textBaseline = "alphabetic";
+      ctx.fillText(matchTrace ? "Easy Match-2 trace loop" : "Easy level 05 final board", boardLeft, 32);
+
+      if (frame) {
+        const actionText = `${afterPhase ? "after" : clearPhase ? "clearing" : "before"} action ${playback.index + 1}/${playback.total} | ${action.type} ${action.pos ? `[${action.pos.join(",")}]` : action.index} | +${frame.cleared}`;
+        ctx.fillStyle = "#667085";
+        ctx.font = "600 17px ui-sans-serif";
+        ctx.fillText(actionText, boardLeft, 58);
+      }
 
       const keys = ["A", "B", "C", "D"];
       keys.forEach((key, i) => {
-        const x = pad + i * ((size - pad * 2) / 4);
+        const x = boardLeft + i * ((cell * n) / 4);
         const y = size - 32;
         ctx.fillStyle = colors[key];
         roundedRect(ctx, x, y - 22, 24, 24, 6);
@@ -962,13 +1030,23 @@
         ctx.fillStyle = "#172033";
         ctx.font = "700 16px ui-sans-serif";
         ctx.textAlign = "left";
-        ctx.fillText(`${key}: ${matchCase.counts[key]}/${matchCase.targets[key]}`, x + 32, y - 10);
+        ctx.fillText(`${key}: ${displayCounts[key] || 0}/${targets[key]}`, x + 32, y - 10);
       });
+
+      const usedSteps = frame ? ((matchTrace.metrics.maxSteps || 16) - displaySteps) : 16;
+      updateMetric("matchScore", displayScore);
+      updateMetric("matchCleared", Object.values(displayCounts).reduce((sum, value) => sum + value, 0));
+      updateMetric("matchScorePerStep", usedSteps > 0 ? (displayScore / usedSteps).toFixed(1) : "0.0");
     }
 
     function animateMaze(now) {
       drawMaze(now);
       window.requestAnimationFrame(animateMaze);
+    }
+
+    function animateMatch(now) {
+      drawMatch(now);
+      window.requestAnimationFrame(animateMatch);
     }
 
     fetch("assets/cases/case-traces.json")
@@ -987,7 +1065,7 @@
       });
 
     window.requestAnimationFrame(animateMaze);
-    drawMatch();
+    window.requestAnimationFrame(animateMatch);
     window.addEventListener("resize", () => {
       drawMaze();
       drawMatch();
