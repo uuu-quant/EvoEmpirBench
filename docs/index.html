@@ -745,7 +745,6 @@
     let mazeTrace = null;
     let mazeAnimationStartedAt = performance.now();
     const mazeFrameMs = 560;
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     function roundedRect(ctx, x, y, w, h, r) {
       const radius = Math.min(r, w / 2, h / 2);
@@ -771,15 +770,19 @@
     function getMazePlayback(now) {
       const frames = mazeTrace && Array.isArray(mazeTrace.frames) ? mazeTrace.frames : [];
       if (!frames.length) {
+        const fallbackLength = Math.max(mazeCase.path.length, 1);
+        const elapsed = Math.max(0, now - mazeAnimationStartedAt);
+        const phase = (elapsed / mazeFrameMs) % fallbackLength;
         return {
           frame: mazeCase,
           frames,
-          index: mazeCase.path.length - 1,
-          blend: 0,
+          index: Math.floor(phase),
+          blend: phase - Math.floor(phase),
           path: mazeCase.path
         };
       }
-      const phase = ((now - mazeAnimationStartedAt) / mazeFrameMs) % frames.length;
+      const elapsed = Math.max(0, now - mazeAnimationStartedAt);
+      const phase = (elapsed / mazeFrameMs) % frames.length;
       const index = Math.floor(phase);
       return {
         frame: frames[index],
@@ -854,7 +857,7 @@
       const drawnPath = path.slice(0, pathIndex + 1);
       const currentPos = path[Math.min(pathIndex, path.length - 1)] || frame.pos || [0, 0];
       const nextPos = path[Math.min(pathIndex + 1, path.length - 1)] || currentPos;
-      const shouldBlend = pathIndex < path.length - 1 && playback.frames.length > 0;
+      const shouldBlend = pathIndex < path.length - 1;
       const agentRow = shouldBlend ? currentPos[0] + (nextPos[0] - currentPos[0]) * playback.blend : currentPos[0];
       const agentCol = shouldBlend ? currentPos[1] + (nextPos[1] - currentPos[1]) * playback.blend : currentPos[1];
 
@@ -907,7 +910,7 @@
 
       updateMazeMetric("mazeScore", score);
       updateMazeMetric("mazeSteps", frame.steps ?? pathIndex);
-      updateMazeMetric("mazeTools", `${countTools(frame.tools)}/4`);
+      updateMazeMetric("mazeTools", frame.tools ? `${countTools(frame.tools)}/4` : "3/4");
     }
 
     function drawMatch() {
@@ -963,7 +966,7 @@
 
     function animateMaze(now) {
       drawMaze(now);
-      if (!reduceMotion) window.requestAnimationFrame(animateMaze);
+      window.requestAnimationFrame(animateMaze);
     }
 
     fetch("assets/cases/case-traces.json")
