@@ -100,7 +100,7 @@ Agent-ExpVer is the online learning mechanism built on top of EvoEmpirBench. It 
 | --- | --- | --- |
 | GeoLink Agent | Interacts with the environment, selects actions, and collects trajectories | `src/agent/agent_interface.py`, `src/agent/map_processor.py` |
 | InsightForce Agent | Summarizes episode-level subjective experiences and validates whether they improve behavior | `src/agent/reflection_agent.py`, `src/agent/learning_agent.py` |
-| TruthWeaver Agent | Maintains reusable truth knowledge by inserting, merging, de-duplicating, or rejecting memories | `src/agent/memory_manager.py`, `src/memory/memory_manager.py` |
+| TruthWeaver Agent | Maintains reusable truth knowledge by inserting, merging, de-duplicating, or rejecting memories | `src/agent/memory_manager.py`, `src/match_game/memory_manager.py`, `src/memory/memory_manager.py` |
 
 At a high level, the loop is:
 
