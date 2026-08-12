@@ -37,6 +37,10 @@
       line-height: 1.55;
     }
 
+    html {
+      scroll-padding-top: 112px;
+    }
+
     a {
       color: var(--blue);
       text-decoration: none;
@@ -218,6 +222,7 @@
 
     .section {
       padding: 70px 0;
+      scroll-margin-top: 112px;
     }
 
     .section-heading {
@@ -248,6 +253,9 @@
     }
 
     .case-card,
+    .learning-card,
+    .compare-card,
+    .ablation-card,
     .info-card,
     .result-card {
       border: 1px solid var(--line);
@@ -258,6 +266,163 @@
 
     .case-card {
       overflow: hidden;
+    }
+
+    .learning-layout {
+      display: grid;
+      gap: 24px;
+    }
+
+    .learning-card {
+      overflow: hidden;
+    }
+
+    .learning-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 20px 20px 14px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, #fbfcff 0%, #f3f7fc 100%);
+    }
+
+    .learning-card-header h3 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.2;
+    }
+
+    .learning-card-header p {
+      max-width: 640px;
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .learning-body {
+      padding: 18px;
+    }
+
+    .before-after-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .compare-card {
+      overflow: hidden;
+      box-shadow: none;
+    }
+
+    .compare-card.before {
+      border-color: rgba(230, 80, 91, 0.36);
+    }
+
+    .compare-card.after {
+      border-color: rgba(53, 163, 107, 0.36);
+    }
+
+    .compare-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcff;
+    }
+
+    .compare-top strong {
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .compare-tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      padding: 0 9px;
+      border-radius: 999px;
+      background: #f4f6fa;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .compare-tag.fail {
+      background: #fff0f1;
+      color: #b83341;
+    }
+
+    .compare-tag.pass {
+      background: #eaf8f1;
+      color: #21764c;
+    }
+
+    .compare-canvas {
+      padding: 10px;
+      background: #f8fbff;
+    }
+
+    .compare-canvas canvas {
+      background: #ffffff;
+      aspect-ratio: 1.34 / 1;
+      border: 1px solid var(--line);
+    }
+
+    .compare-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 0 10px 10px;
+      background: #f8fbff;
+    }
+
+    .compare-metric {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+      background: #ffffff;
+    }
+
+    .compare-metric strong {
+      display: block;
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .compare-metric span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .memory-chain {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .memory-step {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      background: #fbfcff;
+    }
+
+    .memory-step b {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+    }
+
+    .memory-step span {
+      color: var(--muted);
+      font-size: 13px;
     }
 
     .case-top {
@@ -396,6 +561,144 @@
 
     .steps span {
       color: var(--muted);
+    }
+
+    .method-layout {
+      display: grid;
+      gap: 18px;
+    }
+
+    .method-figure {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+      box-shadow: 0 12px 30px rgba(23, 32, 51, 0.06);
+      overflow: hidden;
+    }
+
+    .method-figure svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      background: #f8fbff;
+    }
+
+    .method-caption {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .method-card {
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 16px;
+      background: var(--panel);
+      box-shadow: 0 12px 30px rgba(23, 32, 51, 0.06);
+    }
+
+    .method-card h3 {
+      margin: 8px 0 8px;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .method-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .method-kicker {
+      color: var(--blue);
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .method-code {
+      display: inline-flex;
+      margin-top: 12px;
+      padding: 5px 8px;
+      border-radius: 7px;
+      background: #f1f5fb;
+      color: #40516f;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .ablation-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .ablation-card {
+      padding: 18px;
+      box-shadow: 0 12px 30px rgba(23, 32, 51, 0.06);
+    }
+
+    .ablation-card h3 {
+      margin: 8px 0 10px;
+      font-size: 20px;
+      line-height: 1.2;
+    }
+
+    .ablation-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .ablation-kicker {
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .ablation-metric {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 10px;
+      align-items: center;
+      margin: 14px 0;
+      padding: 12px;
+      border-radius: 8px;
+      background: #f4f7fb;
+    }
+
+    .ablation-metric strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1;
+    }
+
+    .ablation-metric span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .metric-arrow {
+      color: var(--blue);
+      font-weight: 900;
     }
 
     .results-layout {
@@ -549,10 +852,21 @@
     @media (max-width: 900px) {
       .hero-grid,
       .case-grid,
+      .before-after-grid,
       .three-grid,
+      .ablation-grid,
+      .method-grid,
       .result-highlights,
       .code-card {
         grid-template-columns: 1fr;
+      }
+
+      .method-caption {
+        display: block;
+      }
+
+      .memory-chain {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
       .section-heading {
@@ -578,7 +892,9 @@
       }
 
       .stats-strip,
-      .metric-row {
+      .metric-row,
+      .compare-metrics,
+      .memory-chain {
         grid-template-columns: 1fr;
       }
 
@@ -597,8 +913,10 @@
       </a>
       <nav class="nav-links" aria-label="Primary navigation">
         <a href="#cases">Cases</a>
+        <a href="#learning">Learning</a>
         <a href="#method">Agent-ExpVer</a>
         <a href="#results">Results</a>
+        <a href="#ablations">Ablations</a>
         <a href="#citation">Citation</a>
       </nav>
     </div>
@@ -638,7 +956,7 @@
       <div class="shell">
         <div class="section-heading">
           <h2>Classic Cases</h2>
-          <p>These panels are rendered from local run logs: a looping Level 3 maze trajectory and a looping Match-2 action trace.</p>
+          <p>These panels are rendered from local run logs: a looping Level 3 maze trajectory and a looping Match-2 action trace with animated environment changes.</p>
         </div>
         <div class="case-grid">
           <article class="case-card">
@@ -679,6 +997,114 @@
       </div>
     </section>
 
+    <section class="section" id="learning">
+      <div class="shell">
+        <div class="section-heading">
+          <h2>Learning Before / After</h2>
+          <p>Learning traces show the causal chain Agent-ExpVer is designed to create: an early failure, a compact memory, a validation check, and a safer later policy.</p>
+        </div>
+        <div class="learning-layout">
+          <article class="learning-card">
+            <div class="learning-card-header">
+              <div>
+                <h3>Maze Navigation: from blind sprinting to tool-aware exploration</h3>
+                <p>The first run rushes through unrevealed tiles and collides with risk. The second run opens slowly, collects tools, and only crosses danger after the route is known.</p>
+              </div>
+              <span class="pill">learning trace</span>
+            </div>
+            <div class="learning-body">
+              <div class="before-after-grid">
+                <article class="compare-card before">
+                  <div class="compare-top">
+                    <strong>Before memory</strong>
+                    <span class="compare-tag fail">risky rollout</span>
+                  </div>
+                  <div class="compare-canvas">
+                    <canvas id="mazeBeforeCanvas" width="760" height="568" aria-label="Risky maze rollout before Agent-ExpVer memory"></canvas>
+                  </div>
+                  <div class="compare-metrics">
+                    <div class="compare-metric"><strong>dead end</strong><span>outcome</span></div>
+                    <div class="compare-metric"><strong>2</strong><span>lives lost</span></div>
+                    <div class="compare-metric"><strong>0/4</strong><span>tools used</span></div>
+                  </div>
+                </article>
+
+                <article class="compare-card after">
+                  <div class="compare-top">
+                    <strong>After verified truth</strong>
+                    <span class="compare-tag pass">safer rollout</span>
+                  </div>
+                  <div class="compare-canvas">
+                    <canvas id="mazeAfterCanvas" width="760" height="568" aria-label="Safer maze rollout after Agent-ExpVer truth knowledge"></canvas>
+                  </div>
+                  <div class="compare-metrics">
+                    <div class="compare-metric"><strong>reaches exit</strong><span>outcome</span></div>
+                    <div class="compare-metric"><strong>3/4</strong><span>tools held</span></div>
+                    <div class="compare-metric"><strong>+124%</strong><span>score lift</span></div>
+                  </div>
+                </article>
+              </div>
+              <div class="memory-chain" aria-label="Maze memory validation chain">
+                <div class="memory-step"><b>Failure signal</b><span>Large moves into shadow create unrecoverable risk near monsters.</span></div>
+                <div class="memory-step"><b>Subjective memory</b><span>Reveal around danger first; do not spend long moves through unknown cells.</span></div>
+                <div class="memory-step"><b>Validation</b><span>Replay improves survival and score, so the memory is promoted.</span></div>
+                <div class="memory-step"><b>Truth used later</b><span>Collect key tools before crossing partially observed corridors.</span></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="learning-card">
+            <div class="learning-card-header">
+              <div>
+                <h3>Match-2: from local greed to target-aware props</h3>
+                <p>The first run burns high-value clusters without checking target deficits. The second run waits for a better prop moment and clears the missing color faster.</p>
+              </div>
+              <span class="pill">learning trace</span>
+            </div>
+            <div class="learning-body">
+              <div class="before-after-grid">
+                <article class="compare-card before">
+                  <div class="compare-top">
+                    <strong>Before memory</strong>
+                    <span class="compare-tag fail">greedy clears</span>
+                  </div>
+                  <div class="compare-canvas">
+                    <canvas id="matchBeforeCanvas" width="760" height="568" aria-label="Greedy Match-2 rollout before Agent-ExpVer memory"></canvas>
+                  </div>
+                  <div class="compare-metrics">
+                    <div class="compare-metric"><strong>misses C</strong><span>target gap</span></div>
+                    <div class="compare-metric"><strong>3</strong><span>wasted moves</span></div>
+                    <div class="compare-metric"><strong>182</strong><span>score</span></div>
+                  </div>
+                </article>
+
+                <article class="compare-card after">
+                  <div class="compare-top">
+                    <strong>After verified truth</strong>
+                    <span class="compare-tag pass">prop timing</span>
+                  </div>
+                  <div class="compare-canvas">
+                    <canvas id="matchAfterCanvas" width="760" height="568" aria-label="Target-aware Match-2 rollout after Agent-ExpVer truth knowledge"></canvas>
+                  </div>
+                  <div class="compare-metrics">
+                    <div class="compare-metric"><strong>targets met</strong><span>outcome</span></div>
+                    <div class="compare-metric"><strong>+10</strong><span>C cleared</span></div>
+                    <div class="compare-metric"><strong>336</strong><span>score</span></div>
+                  </div>
+                </article>
+              </div>
+              <div class="memory-chain" aria-label="Match-2 memory validation chain">
+                <div class="memory-step"><b>Failure signal</b><span>Greedy large clears increase score but leave target colors missing.</span></div>
+                <div class="memory-step"><b>Subjective memory</b><span>Rank actions by unmet target colors before maximizing immediate score.</span></div>
+                <div class="memory-step"><b>Validation</b><span>Replay clears more target blocks per step, so the rule is retained.</span></div>
+                <div class="memory-step"><b>Truth used later</b><span>Save bomb/row effects for target-dense regions rather than first available cluster.</span></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="tasks">
       <div class="shell">
         <div class="section-heading">
@@ -706,14 +1132,119 @@
       <div class="shell">
         <div class="section-heading">
           <h2>Agent-ExpVer Loop</h2>
-          <p>The mechanism turns episode traces into verified in-context knowledge without fine-tuning the base model.</p>
+          <p>The method is a harnessed online learning loop: every episode is run, logged, abstracted, replay-validated, and converted into reusable in-context truth only when it improves behavior.</p>
         </div>
-        <ol class="steps">
-          <li><div><strong>Interact</strong><span>GeoLink observes local state, selects actions, and collects environment feedback.</span></div></li>
-          <li><div><strong>Abstract</strong><span>InsightForce summarizes successful and failed trajectories into subjective experience.</span></div></li>
-          <li><div><strong>Validate</strong><span>The agent replays with candidate memories and checks whether metrics improve.</span></div></li>
-          <li><div><strong>Maintain</strong><span>TruthWeaver inserts, merges, removes, and reuses verified truth knowledge in later episodes.</span></div></li>
-        </ol>
+        <div class="method-layout">
+          <figure class="method-figure">
+            <svg viewBox="0 0 1180 520" role="img" aria-label="Agent-ExpVer harness loop structure">
+              <defs>
+                <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#456fd6"></path>
+                </marker>
+                <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                  <path d="M 0 0 L 10 5 L 0 10 z" fill="#35a36b"></path>
+                </marker>
+                <filter id="soft-shadow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feDropShadow dx="0" dy="10" stdDeviation="10" flood-color="#172033" flood-opacity="0.10"></feDropShadow>
+                </filter>
+              </defs>
+
+              <rect x="24" y="24" width="1132" height="472" rx="18" fill="#f8fbff" stroke="#d9e2ef"></rect>
+              <text x="52" y="64" fill="#172033" font-size="28" font-weight="900">Agent-ExpVer Harness</text>
+              <text x="52" y="94" fill="#667085" font-size="15" font-weight="700">Run episodes, preserve traces, verify memory, then inject only stable truth into later decisions.</text>
+
+              <rect x="58" y="142" width="176" height="112" rx="14" fill="#ffffff" stroke="#d9e2ef" filter="url(#soft-shadow)"></rect>
+              <text x="82" y="178" fill="#456fd6" font-size="13" font-weight="900">HARNESS RUNNER</text>
+              <text x="82" y="207" fill="#172033" font-size="22" font-weight="900">Episode control</text>
+              <text x="82" y="232" fill="#667085" font-size="13" font-weight="700">config, seed, split, budget</text>
+
+              <rect x="296" y="124" width="194" height="148" rx="16" fill="#eef6ff" stroke="#b7cdf8" filter="url(#soft-shadow)"></rect>
+              <text x="322" y="164" fill="#456fd6" font-size="13" font-weight="900">GEOLINK</text>
+              <text x="322" y="195" fill="#172033" font-size="24" font-weight="900">Interact</text>
+              <text x="322" y="222" fill="#667085" font-size="13" font-weight="700">observe local state</text>
+              <text x="322" y="243" fill="#667085" font-size="13" font-weight="700">choose action, collect reward</text>
+
+              <rect x="558" y="124" width="194" height="148" rx="16" fill="#fff8df" stroke="#f3d879" filter="url(#soft-shadow)"></rect>
+              <text x="584" y="164" fill="#b47a0f" font-size="13" font-weight="900">ENVIRONMENT</text>
+              <text x="584" y="195" fill="#172033" font-size="24" font-weight="900">Dynamic games</text>
+              <text x="584" y="222" fill="#667085" font-size="13" font-weight="700">Maze and Match-2 states</text>
+              <text x="584" y="243" fill="#667085" font-size="13" font-weight="700">tools, rewards, feedback</text>
+
+              <rect x="820" y="124" width="252" height="148" rx="16" fill="#f3efff" stroke="#c8b8f5" filter="url(#soft-shadow)"></rect>
+              <text x="846" y="164" fill="#7b52c9" font-size="13" font-weight="900">INSIGHTFORCE</text>
+              <text x="846" y="195" fill="#172033" font-size="24" font-weight="900">Abstract and validate</text>
+              <text x="846" y="222" fill="#667085" font-size="13" font-weight="700">turn traces into candidate memory</text>
+              <text x="846" y="243" fill="#667085" font-size="13" font-weight="700">replay to test metric improvement</text>
+
+              <rect x="176" y="344" width="236" height="104" rx="16" fill="#ffffff" stroke="#d9e2ef" filter="url(#soft-shadow)"></rect>
+              <text x="202" y="382" fill="#2fb7ca" font-size="13" font-weight="900">TRACE ARTIFACTS</text>
+              <text x="202" y="412" fill="#172033" font-size="22" font-weight="900">State-action logs</text>
+              <text x="202" y="436" fill="#667085" font-size="13" font-weight="700">observations, rewards, metrics</text>
+
+              <rect x="488" y="344" width="236" height="104" rx="16" fill="#eaf8f1" stroke="#a9dfc4" filter="url(#soft-shadow)"></rect>
+              <text x="514" y="382" fill="#21764c" font-size="13" font-weight="900">TRUTHWEAVER</text>
+              <text x="514" y="412" fill="#172033" font-size="22" font-weight="900">Truth repository</text>
+              <text x="514" y="436" fill="#667085" font-size="13" font-weight="700">insert, merge, deduplicate, remove</text>
+
+              <rect x="798" y="344" width="236" height="104" rx="16" fill="#ffffff" stroke="#d9e2ef" filter="url(#soft-shadow)"></rect>
+              <text x="824" y="382" fill="#e6505b" font-size="13" font-weight="900">POLICY UPDATE</text>
+              <text x="824" y="412" fill="#172033" font-size="22" font-weight="900">Prompt injection</text>
+              <text x="824" y="436" fill="#667085" font-size="13" font-weight="700">validated truth guides later episodes</text>
+
+              <path d="M 234 198 L 288 198" stroke="#456fd6" stroke-width="4" fill="none" marker-end="url(#arrow-blue)"></path>
+              <path d="M 490 198 L 550 198" stroke="#456fd6" stroke-width="4" fill="none" marker-end="url(#arrow-blue)"></path>
+              <path d="M 752 198 L 812 198" stroke="#456fd6" stroke-width="4" fill="none" marker-end="url(#arrow-blue)"></path>
+              <path d="M 946 272 L 946 328 L 724 384" stroke="#35a36b" stroke-width="4" fill="none" marker-end="url(#arrow-green)"></path>
+              <path d="M 606 344 L 606 306 L 393 306 L 393 274" stroke="#35a36b" stroke-width="4" fill="none" marker-end="url(#arrow-green)"></path>
+              <path d="M 393 272 L 300 344" stroke="#2fb7ca" stroke-width="3" stroke-dasharray="8 8" fill="none" marker-end="url(#arrow-blue)"></path>
+              <path d="M 724 396 L 790 396" stroke="#35a36b" stroke-width="4" fill="none" marker-end="url(#arrow-green)"></path>
+              <path d="M 916 344 C 1054 312 1110 246 1072 196" stroke="#456fd6" stroke-width="4" fill="none" marker-end="url(#arrow-blue)"></path>
+
+              <text x="258" y="186" fill="#456fd6" font-size="12" font-weight="900">config</text>
+              <text x="512" y="186" fill="#456fd6" font-size="12" font-weight="900">action</text>
+              <text x="764" y="186" fill="#456fd6" font-size="12" font-weight="900">trace</text>
+              <text x="742" y="374" fill="#35a36b" font-size="12" font-weight="900">validated</text>
+              <text x="932" y="330" fill="#456fd6" font-size="12" font-weight="900">reuse</text>
+            </svg>
+            <figcaption class="method-caption">
+              <span>The harness separates episode execution from memory management, so every policy change can be traced back to a validated experience.</span>
+              <span class="pill">parameter-free</span>
+            </figcaption>
+          </figure>
+
+          <div class="method-grid">
+            <article class="method-card">
+              <span class="method-kicker">Runner</span>
+              <h3>Controlled evaluation</h3>
+              <p>Runs fixed splits with explicit budgets, model settings, and output folders so baseline and Agent-ExpVer can be compared cleanly.</p>
+              <span class="method-code">scripts/*evaluate*.py</span>
+            </article>
+            <article class="method-card">
+              <span class="method-kicker">GeoLink</span>
+              <h3>Grounded interaction</h3>
+              <p>Turns local observations into actions, records state transitions, and keeps the agent tied to environment feedback.</p>
+              <span class="method-code">src/agent</span>
+            </article>
+            <article class="method-card">
+              <span class="method-kicker">InsightForce</span>
+              <h3>Experience abstraction</h3>
+              <p>Compresses successful and failed trajectories into actionable subjective memory, then tests the memory through replay.</p>
+              <span class="method-code">learning_agent.py</span>
+            </article>
+            <article class="method-card">
+              <span class="method-kicker">TruthWeaver</span>
+              <h3>Knowledge hygiene</h3>
+              <p>Promotes only useful memories, merges similar rules, removes duplicates, and prevents noisy reflection from accumulating.</p>
+              <span class="method-code">memory_manager.py</span>
+            </article>
+            <article class="method-card">
+              <span class="method-kicker">Artifacts</span>
+              <h3>Auditable loop</h3>
+              <p>Stores traces, metrics, validation logs, promoted truths, and run summaries under reproducible output directories.</p>
+              <span class="method-code">outputs/</span>
+            </article>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -846,6 +1377,49 @@
       </div>
     </section>
 
+    <section class="section" id="ablations">
+      <div class="shell">
+        <div class="section-heading">
+          <h2>Scenario Ablations</h2>
+          <p>Control settings show why the benchmark is hard: partial observability, tool constraints, and truth management all shape performance.</p>
+        </div>
+        <div class="ablation-grid">
+          <article class="ablation-card">
+            <span class="ablation-kicker">Maze visibility</span>
+            <h3>Full vision removes exploration pressure</h3>
+            <div class="ablation-metric">
+              <div><strong>73.33</strong><span>GPT-4.1 EEB SR</span></div>
+              <div class="metric-arrow">to</div>
+              <div><strong>93.33</strong><span>Full-Vis SR</span></div>
+            </div>
+            <p>When the map is globally visible, planning becomes much easier, confirming that local observation is a core difficulty source.</p>
+          </article>
+
+          <article class="ablation-card">
+            <span class="ablation-kicker">Match-2 props</span>
+            <h3>Tools change the objective trade-off</h3>
+            <div class="ablation-metric">
+              <div><strong>245.04</strong><span>GPT-4.1 EEB AS</span></div>
+              <div class="metric-arrow">to</div>
+              <div><strong>412.67</strong><span>NoProps AS</span></div>
+            </div>
+            <p>Removing props can raise raw score, but it also removes the decision pressure of when to spend tools for target completion.</p>
+          </article>
+
+          <article class="ablation-card">
+            <span class="ablation-kicker">TruthWeaver</span>
+            <h3>Validated memory beats loose reflection</h3>
+            <div class="ablation-metric">
+              <div><strong>48.89</strong><span>w/o TW Match SR</span></div>
+              <div class="metric-arrow">to</div>
+              <div><strong>53.33</strong><span>Full ExpVer SR</span></div>
+            </div>
+            <p>TruthWeaver keeps only useful, reusable knowledge, reducing noisy memories before they enter later prompts.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section class="section" id="code">
       <div class="shell">
         <div class="code-card">
@@ -905,6 +1479,91 @@
     let matchTrace = window.EVOEMPIRBENCH_EASY_MATCH_TRACE || null;
     let matchAnimationStartedAt = performance.now();
     const matchFrameMs = 780;
+    const learningStartedAt = performance.now();
+
+    const mazeLearningCases = {
+      before: {
+        title: "Before memory: risky blind stride",
+        phaseLabel: "large moves through shadow",
+        status: "collision risk",
+        grid: [
+          [0,0,0,1,0,5,3],
+          [0,1,0,1,0,1,0],
+          [0,1,0,0,6,0,0],
+          [0,0,0,1,0,0,0],
+          [0,1,7,0,0,1,0],
+          [0,0,0,1,8,0,0],
+          [2,0,5,0,0,9,10]
+        ],
+        path: [[6,0],[5,0],[4,0],[3,0],[3,1],[3,2],[2,2],[2,3],[2,4]],
+        dangerStep: 8,
+        truth: "No verified rule yet"
+      },
+      after: {
+        title: "After truth: reveal, collect, cross",
+        phaseLabel: "tool-aware route",
+        status: "goal reached",
+        grid: [
+          [0,0,0,1,0,5,3],
+          [0,1,0,1,0,1,0],
+          [0,1,0,0,6,0,0],
+          [0,0,0,1,0,0,0],
+          [0,1,7,0,0,1,0],
+          [0,0,0,1,8,0,0],
+          [2,0,5,0,0,9,10]
+        ],
+        path: [[6,0],[6,1],[6,2],[6,3],[6,4],[6,5],[6,6],[5,6],[5,5],[5,4],[4,4],[4,3],[4,2],[3,2],[2,2],[2,3],[1,4],[0,4],[0,5],[0,6]],
+        keySteps: {magnet: 5, key: 6, sword: 9, pickaxe: 12},
+        truth: "Reveal first; collect key tools before crossing danger"
+      }
+    };
+
+    const matchLearningCases = {
+      before: {
+        title: "Before memory: greedy score",
+        phaseLabel: "clears largest group first",
+        status: "target C missing",
+        targets: {A: 8, B: 8, C: 12, D: 8},
+        board: [
+          ["D","D","D","A","B","C","C","A"],
+          ["D","D","A","A","B","C","B","A"],
+          ["B","A","A","D","D","B","B","C"],
+          ["C","B","D","D","A","A","D","D"],
+          ["C","B","B","A","A","D","D","D"],
+          ["A","A","B","C","D","D","B","B"],
+          ["C","B","C","C","A","B","B","A"],
+          ["D","A","A","B","C","C","A","A"]
+        ],
+        actions: [
+          {type: "eliminate", label: "greedy D clear", cells: [[0,0],[0,1],[0,2],[1,0],[1,1]], score: 42},
+          {type: "eliminate", label: "greedy A clear", cells: [[3,4],[3,5],[4,3],[4,4]], score: 76},
+          {type: "eliminate", label: "low-target B clear", cells: [[5,6],[5,7],[6,5],[6,6]], score: 104}
+        ],
+        counts: {A: 4, B: 4, C: 2, D: 5}
+      },
+      after: {
+        title: "After truth: target-aware props",
+        phaseLabel: "save bomb for C-dense region",
+        status: "targets stabilized",
+        targets: {A: 8, B: 8, C: 12, D: 8},
+        board: [
+          ["D","B","C","C","B","C","C","A"],
+          ["B","A","C","C","B","C","B","A"],
+          ["B","A","A","D","C","C","B","C"],
+          ["C","B","D","D","C","A","D","D"],
+          ["C","B","C","A","C","D","D","D"],
+          ["A","A","C","C","D","D","B","B"],
+          ["C","B","C","C","A","B","B","A"],
+          ["D","A","A","B","C","C","A","A"]
+        ],
+        actions: [
+          {type: "bomb", label: "bomb target-C cluster", cells: [[0,2],[0,3],[1,2],[1,3],[2,4],[2,5],[3,4],[4,4],[5,2],[5,3]], center: [2,4], score: 126},
+          {type: "row", label: "row prop balances B/D", row: 6, cells: [[6,0],[6,1],[6,2],[6,3],[6,4],[6,5],[6,6],[6,7]], score: 212},
+          {type: "eliminate", label: "finish remaining A", cells: [[7,1],[7,2],[7,6],[7,7]], score: 336}
+        ],
+        counts: {A: 8, B: 10, C: 14, D: 9}
+      }
+    };
 
     function roundedRect(ctx, x, y, w, h, r) {
       const radius = Math.min(r, w / 2, h / 2);
@@ -963,6 +1622,382 @@
       return [pad + col * cell + cell / 2, pad + row * cell + cell / 2];
     }
 
+    function drawCoin(ctx, x, y, radius, glow = false) {
+      if (glow) {
+        ctx.fillStyle = "rgba(243, 183, 53, 0.22)";
+        ctx.beginPath();
+        ctx.arc(x, y, radius * 1.7, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.fillStyle = "#f6c84f";
+      ctx.strokeStyle = "#b77d12";
+      ctx.lineWidth = Math.max(2, radius * 0.16);
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "rgba(255, 255, 255, 0.55)";
+      ctx.beginPath();
+      ctx.ellipse(x - radius * 0.28, y - radius * 0.34, radius * 0.22, radius * 0.12, -0.6, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function drawMonster(ctx, x, y, radius, pulse = 0) {
+      ctx.fillStyle = `rgba(138, 98, 215, ${0.18 + pulse * 0.12})`;
+      ctx.beginPath();
+      ctx.arc(x, y, radius * 1.55, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#8a62d7";
+      ctx.strokeStyle = "#4f348d";
+      ctx.lineWidth = Math.max(2, radius * 0.15);
+      ctx.beginPath();
+      ctx.moveTo(x, y - radius);
+      ctx.quadraticCurveTo(x + radius, y - radius * 0.72, x + radius * 0.86, y + radius * 0.35);
+      ctx.lineTo(x + radius * 0.52, y + radius);
+      ctx.lineTo(x, y + radius * 0.68);
+      ctx.lineTo(x - radius * 0.52, y + radius);
+      ctx.lineTo(x - radius * 0.86, y + radius * 0.35);
+      ctx.quadraticCurveTo(x - radius, y - radius * 0.72, x, y - radius);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(x - radius * 0.28, y - radius * 0.12, radius * 0.16, 0, Math.PI * 2);
+      ctx.arc(x + radius * 0.28, y - radius * 0.12, radius * 0.16, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#172033";
+      ctx.beginPath();
+      ctx.arc(x - radius * 0.25, y - radius * 0.1, radius * 0.07, 0, Math.PI * 2);
+      ctx.arc(x + radius * 0.25, y - radius * 0.1, radius * 0.07, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function drawSword(ctx, x, y, radius) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(-Math.PI / 4);
+      ctx.fillStyle = "#456fd6";
+      roundedRect(ctx, -radius * 0.12, -radius * 1.05, radius * 0.24, radius * 1.35, radius * 0.08);
+      ctx.fill();
+      ctx.fillStyle = "#d8e6ff";
+      roundedRect(ctx, -radius * 0.05, -radius * 0.95, radius * 0.1, radius * 1.1, radius * 0.04);
+      ctx.fill();
+      ctx.fillStyle = "#f3b735";
+      roundedRect(ctx, -radius * 0.55, radius * 0.22, radius * 1.1, radius * 0.18, radius * 0.08);
+      ctx.fill();
+      ctx.fillStyle = "#172033";
+      roundedRect(ctx, -radius * 0.12, radius * 0.35, radius * 0.24, radius * 0.62, radius * 0.1);
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function drawPickaxe(ctx, x, y, radius) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(-Math.PI / 5);
+      ctx.strokeStyle = "#855d2e";
+      ctx.lineWidth = Math.max(4, radius * 0.22);
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(0, -radius * 0.2);
+      ctx.lineTo(0, radius * 1.05);
+      ctx.stroke();
+      ctx.strokeStyle = "#2fb7ca";
+      ctx.lineWidth = Math.max(5, radius * 0.26);
+      ctx.beginPath();
+      ctx.moveTo(-radius * 0.9, -radius * 0.34);
+      ctx.quadraticCurveTo(0, -radius * 0.85, radius * 0.9, -radius * 0.28);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function drawMagnet(ctx, x, y, radius) {
+      ctx.strokeStyle = "#22a7bd";
+      ctx.lineWidth = Math.max(5, radius * 0.28);
+      ctx.beginPath();
+      ctx.arc(x, y, radius * 0.76, Math.PI * 0.05, Math.PI * 0.95, true);
+      ctx.stroke();
+      ctx.fillStyle = "#e6505b";
+      roundedRect(ctx, x - radius * 0.82, y - radius * 0.1, radius * 0.28, radius * 0.38, radius * 0.05);
+      ctx.fill();
+      roundedRect(ctx, x + radius * 0.54, y - radius * 0.1, radius * 0.28, radius * 0.38, radius * 0.05);
+      ctx.fill();
+    }
+
+    function drawKey(ctx, x, y, radius) {
+      ctx.strokeStyle = "#dca52a";
+      ctx.fillStyle = "#f3b735";
+      ctx.lineWidth = Math.max(3, radius * 0.18);
+      ctx.beginPath();
+      ctx.arc(x - radius * 0.35, y, radius * 0.32, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x - radius * 0.03, y);
+      ctx.lineTo(x + radius * 0.88, y);
+      ctx.lineTo(x + radius * 0.88, y + radius * 0.25);
+      ctx.moveTo(x + radius * 0.48, y);
+      ctx.lineTo(x + radius * 0.48, y + radius * 0.32);
+      ctx.stroke();
+    }
+
+    function drawGoalFlag(ctx, x, y, radius) {
+      ctx.strokeStyle = "#172033";
+      ctx.lineWidth = Math.max(3, radius * 0.14);
+      ctx.beginPath();
+      ctx.moveTo(x - radius * 0.5, y + radius);
+      ctx.lineTo(x - radius * 0.5, y - radius);
+      ctx.stroke();
+      ctx.fillStyle = "#e6505b";
+      ctx.beginPath();
+      ctx.moveTo(x - radius * 0.46, y - radius);
+      ctx.lineTo(x + radius * 0.76, y - radius * 0.62);
+      ctx.lineTo(x - radius * 0.46, y - radius * 0.18);
+      ctx.closePath();
+      ctx.fill();
+    }
+
+    function drawAgentToken(ctx, x, y, radius, color = "#456fd6") {
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "#ffffff";
+      ctx.beginPath();
+      ctx.arc(x - radius * 0.32, y - radius * 0.18, radius * 0.12, 0, Math.PI * 2);
+      ctx.arc(x + radius * 0.32, y - radius * 0.18, radius * 0.12, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "#ffffff";
+      ctx.lineWidth = Math.max(2, radius * 0.12);
+      ctx.beginPath();
+      ctx.arc(x, y + radius * 0.08, radius * 0.38, 0.15 * Math.PI, 0.85 * Math.PI);
+      ctx.stroke();
+    }
+
+    function drawMazeIcon(ctx, value, x, y, radius, options = {}) {
+      if (value === 2) drawAgentToken(ctx, x, y, radius, "#35a36b");
+      if (value === 3) drawGoalFlag(ctx, x, y, radius);
+      if (value === 5) drawCoin(ctx, x, y, radius * 0.72, options.glow);
+      if (value === 6) drawMonster(ctx, x, y, radius * 0.82, options.pulse || 0);
+      if (value === 7) drawPickaxe(ctx, x, y, radius * 0.88);
+      if (value === 8) drawSword(ctx, x, y, radius * 0.88);
+      if (value === 9) drawMagnet(ctx, x, y, radius * 0.88);
+      if (value === 10) drawKey(ctx, x, y, radius * 0.88);
+    }
+
+    function drawLearningMaze(canvasId, scenario, now) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      const width = canvas.width;
+      const height = canvas.height;
+      const grid = scenario.grid;
+      const n = grid.length;
+      const elapsed = (now - learningStartedAt) / 1000;
+      const stepPhase = (elapsed * 1.45) % scenario.path.length;
+      const stepIndex = Math.floor(stepPhase);
+      const blend = stepPhase - stepIndex;
+      const current = scenario.path[stepIndex];
+      const next = scenario.path[Math.min(stepIndex + 1, scenario.path.length - 1)];
+      const pad = 34;
+      const cell = Math.min((width - pad * 2) / n, (height - 94) / n);
+      const left = 34;
+      const top = 68;
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#f6f9fd";
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = "#172033";
+      ctx.font = "800 23px ui-sans-serif";
+      ctx.textAlign = "left";
+      ctx.fillText(scenario.title, left, 30);
+      ctx.fillStyle = "#667085";
+      ctx.font = "700 15px ui-sans-serif";
+      ctx.fillText(`${scenario.phaseLabel} | ${scenario.status}`, left, 54);
+
+      for (let r = 0; r < n; r += 1) {
+        for (let c = 0; c < n; c += 1) {
+          const x = left + c * cell;
+          const y = top + r * cell;
+          const value = grid[r][c];
+          const dist = Math.abs(r - current[0]) + Math.abs(c - current[1]);
+          const visible = scenario === mazeLearningCases.after ? dist <= 3 || r >= 4 : dist <= 2 || r === 6;
+          ctx.fillStyle = visible ? "#ffffff" : "#e9eef6";
+          if (value === 1) ctx.fillStyle = visible ? "#30394b" : "#d9e1ec";
+          roundedRect(ctx, x + 2, y + 2, cell - 4, cell - 4, 8);
+          ctx.fill();
+          ctx.strokeStyle = "#d6e0ee";
+          ctx.lineWidth = 1;
+          ctx.strokeRect(x, y, cell, cell);
+          if (!visible) {
+            ctx.fillStyle = "rgba(47, 57, 74, 0.13)";
+            ctx.fillRect(x + 2, y + 2, cell - 4, cell - 4);
+          }
+          if (visible && value !== 0 && value !== 1 && value !== 2) {
+            drawMazeIcon(ctx, value, x + cell / 2, y + cell / 2, cell * 0.32, {
+              glow: scenario === mazeLearningCases.after && value === 5,
+              pulse: (Math.sin(elapsed * 4) + 1) / 2
+            });
+          }
+        }
+      }
+
+      const traveled = scenario.path.slice(0, stepIndex + 1);
+      ctx.strokeStyle = scenario === mazeLearningCases.before ? "#e6505b" : "#35a36b";
+      ctx.lineWidth = 5;
+      ctx.lineCap = "round";
+      ctx.lineJoin = "round";
+      ctx.beginPath();
+      traveled.forEach(([r, c], i) => {
+        const [x, y] = [left + c * cell + cell / 2, top + r * cell + cell / 2];
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      const agentRow = current[0] + (next[0] - current[0]) * blend;
+      const agentCol = current[1] + (next[1] - current[1]) * blend;
+      const ax = left + agentCol * cell + cell / 2;
+      const ay = top + agentRow * cell + cell / 2;
+      drawAgentToken(ctx, ax, ay, cell * 0.25, scenario === mazeLearningCases.before ? "#e6505b" : "#456fd6");
+
+      if (scenario.dangerStep && stepIndex >= scenario.dangerStep - 1) {
+        const [mx, my] = [left + 4 * cell + cell / 2, top + 2 * cell + cell / 2];
+        ctx.strokeStyle = `rgba(230, 80, 91, ${0.35 + Math.sin(elapsed * 8) * 0.18})`;
+        ctx.lineWidth = 8;
+        ctx.beginPath();
+        ctx.arc(mx, my, cell * 0.55, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = "#ffffff";
+      roundedRect(ctx, left, height - 56, width - left * 2, 34, 9);
+      ctx.fill();
+      ctx.strokeStyle = "#d9e2ef";
+      ctx.stroke();
+      ctx.fillStyle = "#456fd6";
+      ctx.font = "800 13px ui-sans-serif";
+      ctx.fillText(`truth: ${scenario.truth}`, left + 12, height - 35);
+    }
+
+    function drawMatchTile(ctx, x, y, cell, key, colors, options = {}) {
+      const scale = options.scale || 1;
+      const inset = cell * (0.12 + (1 - scale) * 0.18);
+      ctx.fillStyle = options.clearing ? "#ffffff" : (colors[key] || "#ffffff");
+      roundedRect(ctx, x + inset, y + inset, cell - inset * 2, cell - inset * 2, Math.max(8, cell * 0.14));
+      ctx.fill();
+      ctx.strokeStyle = options.highlight ? "#456fd6" : "rgba(23, 32, 51, 0.24)";
+      ctx.lineWidth = options.highlight ? 4 : 2;
+      ctx.stroke();
+      if (!options.clearing && key) {
+        ctx.fillStyle = "#172033";
+        ctx.font = `800 ${Math.max(14, cell * 0.34)}px ui-sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(key, x + cell / 2, y + cell / 2 + 1);
+      }
+    }
+
+    function drawPropEffect(ctx, type, action, left, top, cell, phase) {
+      const pulse = Math.sin(phase * Math.PI);
+      if (type === "bomb" && action.center) {
+        const [r, c] = action.center;
+        const x = left + c * cell + cell / 2;
+        const y = top + r * cell + cell / 2;
+        ctx.strokeStyle = `rgba(230, 80, 91, ${0.35 + pulse * 0.45})`;
+        ctx.lineWidth = 7;
+        ctx.beginPath();
+        ctx.arc(x, y, cell * (0.75 + pulse * 1.1), 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = `rgba(230, 80, 91, ${0.18 + pulse * 0.18})`;
+        ctx.beginPath();
+        ctx.arc(x, y, cell * (0.28 + pulse * 0.12), 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "#172033";
+        ctx.font = `900 ${Math.max(18, cell * 0.34)}px ui-sans-serif`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText("BOMB", x, y);
+      }
+      if (type === "row" && Number.isFinite(action.row)) {
+        const y = top + action.row * cell;
+        ctx.fillStyle = `rgba(69, 111, 214, ${0.12 + pulse * 0.2})`;
+        roundedRect(ctx, left - 4, y + 4, cell * 8 + 8, cell - 8, 10);
+        ctx.fill();
+        ctx.strokeStyle = `rgba(69, 111, 214, ${0.5 + pulse * 0.35})`;
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.moveTo(left, y + cell / 2);
+        ctx.lineTo(left + cell * 8, y + cell / 2);
+        ctx.stroke();
+      }
+    }
+
+    function drawLearningMatch(canvasId, scenario, now) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      const width = canvas.width;
+      const height = canvas.height;
+      const elapsed = (now - learningStartedAt) / 1000;
+      const actionPhase = (elapsed * 0.72) % scenario.actions.length;
+      const actionIndex = Math.floor(actionPhase);
+      const phase = actionPhase - actionIndex;
+      const action = scenario.actions[actionIndex];
+      const board = scenario.board;
+      const colors = {A: "#e95464", B: "#7bd5ce", C: "#a8d885", D: "#f2cf5b"};
+      const n = board.length;
+      const top = 76;
+      const cell = Math.min((width - 72) / n, (height - 142) / n);
+      const left = (width - cell * n) / 2;
+      ctx.clearRect(0, 0, width, height);
+      ctx.fillStyle = "#f6f9fd";
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = "#172033";
+      ctx.font = "800 23px ui-sans-serif";
+      ctx.textAlign = "left";
+      ctx.fillText(scenario.title, left, 30);
+      ctx.fillStyle = "#667085";
+      ctx.font = "700 15px ui-sans-serif";
+      ctx.fillText(`${scenario.phaseLabel} | ${scenario.status}`, left, 54);
+
+      for (let r = 0; r < n; r += 1) {
+        for (let c = 0; c < n; c += 1) {
+          const x = left + c * cell;
+          const y = top + r * cell;
+          const clearing = phase > 0.34 && phase < 0.72 && isClearedCell(action.cells, r, c);
+          const highlight = isClearedCell(action.cells, r, c);
+          const scale = clearing ? 1 - Math.sin((phase - 0.34) / 0.38 * Math.PI) * 0.32 : 1;
+          drawMatchTile(ctx, x, y, cell, board[r][c], colors, {clearing, highlight, scale});
+        }
+      }
+
+      if (phase > 0.18 && phase < 0.82) {
+        drawPropEffect(ctx, action.type, action, left, top, cell, phase);
+      }
+
+      ctx.fillStyle = "#ffffff";
+      roundedRect(ctx, left, height - 54, cell * n, 36, 9);
+      ctx.fill();
+      ctx.strokeStyle = "#d9e2ef";
+      ctx.stroke();
+      ctx.fillStyle = action.type === "bomb" ? "#e6505b" : action.type === "row" ? "#456fd6" : "#667085";
+      ctx.font = "800 14px ui-sans-serif";
+      ctx.fillText(`${actionIndex + 1}/${scenario.actions.length} ${action.label} | score ${action.score}`, left + 12, height - 31);
+
+      const keys = ["A", "B", "C", "D"];
+      keys.forEach((key, i) => {
+        const x = left + i * ((cell * n) / 4);
+        const y = top + cell * n + 24;
+        const count = scenario.counts[key] || 0;
+        const target = scenario.targets[key] || 0;
+        ctx.fillStyle = colors[key];
+        roundedRect(ctx, x, y - 16, 20, 20, 6);
+        ctx.fill();
+        ctx.fillStyle = count >= target ? "#21764c" : "#172033";
+        ctx.font = "800 13px ui-sans-serif";
+        ctx.fillText(`${key} ${count}/${target}`, x + 28, y - 3);
+      });
+    }
+
     function drawMaze(now = performance.now()) {
       const canvas = document.getElementById("mazeCanvas");
       const ctx = canvas.getContext("2d");
@@ -970,7 +2005,7 @@
       const playback = getMazePlayback(now);
       const frame = playback.frame;
       const grid = frame.grid || mazeCase.grid;
-      const vision = frame.vision || mazeCase.vision;
+      const vision = frame.vision || mazeCase.vision || null;
       const path = playback.path.length ? playback.path : mazeCase.path;
       const pathIndex = Math.min(playback.index, path.length - 1);
       ctx.clearRect(0, 0, size, size);
@@ -983,23 +2018,22 @@
       const colors = {
         0: "#ffffff",
         1: "#2f394a",
-        2: "#35a36b",
-        3: "#e6505b",
-        5: "#f3b735",
-        6: "#8a62d7",
-        7: "#2fb7ca",
-        8: "#456fd6",
-        9: "#22a7bd",
-        10: "#f0a12a"
+        2: "#ffffff",
+        3: "#ffffff",
+        5: "#ffffff",
+        6: "#ffffff",
+        7: "#ffffff",
+        8: "#ffffff",
+        9: "#ffffff",
+        10: "#ffffff"
       };
-      const labels = {2: "S", 3: "G", 5: "$", 6: "M", 7: "Sh", 8: "Sw", 9: "Mg", 10: "K"};
 
       for (let r = 0; r < n; r += 1) {
         for (let c = 0; c < n; c += 1) {
           const x = pad + c * cell;
           const y = pad + r * cell;
           const value = grid[r][c];
-          const visible = !vision[r] || vision[r][c] === 1;
+          const visible = !vision || !vision[r] || vision[r][c] === 1;
           ctx.fillStyle = visible ? (colors[value] || "#ffffff") : "#eef2f7";
           roundedRect(ctx, x + 2, y + 2, cell - 4, cell - 4, 8);
           ctx.fill();
@@ -1009,13 +2043,11 @@
           }
           ctx.strokeStyle = "#d7e1ef";
           ctx.strokeRect(x, y, cell, cell);
-          const v = visible ? value : "";
-          if (labels[v]) {
-            ctx.fillStyle = v === 1 ? "#fff" : "#172033";
-            ctx.font = `700 ${Math.max(13, cell * 0.24)}px ui-sans-serif`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText(labels[v], x + cell / 2, y + cell / 2);
+          if (visible && value !== 0 && value !== 1 && value !== 2) {
+            drawMazeIcon(ctx, value, x + cell / 2, y + cell / 2, cell * 0.34, {
+              glow: value === 5,
+              pulse: (Math.sin(now / 220) + 1) / 2
+            });
           }
         }
       }
@@ -1053,15 +2085,7 @@
       });
 
       const [agentX, agentY] = cellCenter(pad, cell, agentRow, agentCol);
-      ctx.fillStyle = "#456fd6";
-      ctx.beginPath();
-      ctx.arc(agentX, agentY, Math.max(12, cell * 0.2), 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = "#ffffff";
-      ctx.font = `800 ${Math.max(12, cell * 0.22)}px ui-sans-serif`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillText("A", agentX, agentY + 1);
+      drawAgentToken(ctx, agentX, agentY, Math.max(12, cell * 0.22), "#456fd6");
 
       ctx.fillStyle = "#172033";
       ctx.font = "800 28px ui-sans-serif";
@@ -1094,7 +2118,7 @@
     }
 
     function isClearedCell(cells, row, col) {
-      return cells.some(([r, c]) => r === row && c === col);
+      return Array.isArray(cells) && cells.some(([r, c]) => r === row && c === col);
     }
 
     function drawMatch(now = performance.now()) {
@@ -1131,23 +2155,18 @@
           const y = boardTop + r * cell;
           const key = board[r][c];
           const clearing = clearPhase && isClearedCell(clearCells, r, c);
-          ctx.fillStyle = clearing ? "#ffffff" : (colors[key] || "#ffffff");
-          roundedRect(ctx, x + 5, y + 5, cell - 10, cell - 10, 10);
-          ctx.fill();
-          ctx.strokeStyle = "rgba(23, 32, 51, 0.25)";
-          ctx.lineWidth = 2;
-          ctx.stroke();
+          const selected = frame && action && action.pos && action.pos[0] === r && action.pos[1] === c;
+          const scale = clearing ? 0.72 + Math.sin((playback.phase - 0.34) / 0.28 * Math.PI) * 0.16 : 1;
+          drawMatchTile(ctx, x, y, cell, key, colors, {
+            clearing,
+            highlight: selected || clearing,
+            scale
+          });
           if (clearing) {
             ctx.strokeStyle = "rgba(230, 80, 91, 0.9)";
             ctx.lineWidth = 4;
             roundedRect(ctx, x + 12, y + 12, cell - 24, cell - 24, 8);
             ctx.stroke();
-          } else if (key) {
-            ctx.fillStyle = "#172033";
-            ctx.font = `800 ${Math.max(18, cell * 0.34)}px ui-sans-serif`;
-            ctx.textAlign = "center";
-            ctx.textBaseline = "middle";
-            ctx.fillText(key, x + cell / 2, y + cell / 2);
           }
         }
       }
@@ -1160,6 +2179,16 @@
         ctx.lineWidth = 6;
         roundedRect(ctx, x + 9, y + 9, cell - 18, cell - 18, 10);
         ctx.stroke();
+      }
+
+      if (frame && action && clearPhase) {
+        const effectAction = {
+          type: action.type,
+          cells: clearCells,
+          center: action.pos,
+          row: action.pos ? action.pos[0] : null
+        };
+        drawPropEffect(ctx, action.type, effectAction, boardLeft, boardTop, cell, playback.phase);
       }
 
       ctx.fillStyle = "#172033";
@@ -1195,11 +2224,15 @@
     }
 
     function animateMaze(now) {
+      drawLearningMaze("mazeBeforeCanvas", mazeLearningCases.before, now);
+      drawLearningMaze("mazeAfterCanvas", mazeLearningCases.after, now);
       drawMaze(now);
       window.requestAnimationFrame(animateMaze);
     }
 
     function animateMatch(now) {
+      drawLearningMatch("matchBeforeCanvas", matchLearningCases.before, now);
+      drawLearningMatch("matchAfterCanvas", matchLearningCases.after, now);
       drawMatch(now);
       window.requestAnimationFrame(animateMatch);
     }
@@ -1222,6 +2255,11 @@
     window.requestAnimationFrame(animateMaze);
     window.requestAnimationFrame(animateMatch);
     window.addEventListener("resize", () => {
+      const now = performance.now();
+      drawLearningMaze("mazeBeforeCanvas", mazeLearningCases.before, now);
+      drawLearningMaze("mazeAfterCanvas", mazeLearningCases.after, now);
+      drawLearningMatch("matchBeforeCanvas", matchLearningCases.before, now);
+      drawLearningMatch("matchAfterCanvas", matchLearningCases.after, now);
       drawMaze();
       drawMatch();
     });
