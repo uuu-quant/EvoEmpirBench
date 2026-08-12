@@ -1,6 +1,6 @@
 # EvoEmpirBench
 
-Code artifact for **EvoEmpirBench: Dynamic Spatial Reasoning with Agent-ExpVer**.
+Released code for **EvoEmpirBench: Dynamic Spatial Reasoning with Agent-ExpVer**.
 
 EvoEmpirBench is a dynamic, partially observable benchmark for evaluating how language-model agents reason, plan, use tools, and adapt from experience in interactive spatial environments. The repository contains the core game environments, level assets, LLM-agent loops, experience abstraction modules, and evaluation scripts used for the Maze Navigation and Match-2 tasks.
 
@@ -25,7 +25,7 @@ The paper makes two linked contributions:
 - **Maze Navigation.** Agents navigate partially observed mazes, collect coins, avoid or defeat monsters, use tools, and reach the goal.
 - **Match-2 Elimination.** Agents clear connected color blocks on an 8x8 board while balancing limited steps, color targets, and prop usage.
 - **Agent-ExpVer.** A three-agent online learning framework that abstracts subjective experience, validates it through replay, and maintains reusable truth knowledge.
-- **Clean reproducibility artifact.** Source code and lightweight level assets are kept; generated results, private credentials, local memories, caches, and editor files are excluded.
+- **Clean reproducibility package.** Source code and lightweight level assets are kept; generated results, private credentials, local memories, caches, and editor files are excluded.
 
 ## Demo Cases
 
@@ -35,7 +35,7 @@ Click a thumbnail to open a short gameplay clip.
 | --- | --- |
 | [![Maze Navigation demo](docs/assets/demos/maze-navigation-demo.png)](docs/assets/demos/maze-navigation-demo.mp4) | [![Match-2 demo](docs/assets/demos/match2-demo.png)](docs/assets/demos/match2-demo.mp4) |
 
-The full supplementary videos can be distributed through GitHub Releases or an external artifact host if you want to keep the repository itself lightweight.
+The full supplementary videos can be distributed through GitHub Releases or an external file host if you want to keep the repository itself lightweight.
 
 ## What Is Included
 
@@ -80,7 +80,7 @@ The maze environment evaluates spatial reasoning under partial observability. Th
 | Level 2 | 9x9 | 5 coins, 2 moving monsters |
 | Level 3 | 11x11 | 5 coins, 2 moving monsters, shovel, sword, magnet, key |
 
-**Artifact note.** This released code follows the original three-scale maze setup above. If you compare against a manuscript snapshot that describes every maze level as 9x9, treat that sentence as stale relative to this implementation.
+**Implementation note.** This released code follows the original three-scale maze setup above. If you compare against a manuscript snapshot that describes every maze level as 9x9, treat that sentence as stale relative to this implementation.
 
 ### Match-2 Elimination
 
@@ -138,13 +138,13 @@ Do not commit `.env` or raw model outputs.
 
 ## Quick Verification
 
-Run the lightweight project check before sharing or evaluating the artifact:
+Run the lightweight project check before sharing or evaluating the release:
 
 ```bash
 python scripts/check_project.py
 ```
 
-The check verifies required directories, parses level JSON files, checks maze dimensions, confirms generated artifact folders are absent, and scans source/docs for accidental `sk-...` style API key patterns.
+The check verifies required directories, parses level JSON files, checks maze dimensions, confirms generated output folders are absent, and scans source/docs for accidental `sk-...` style API key patterns.
 
 For a headless machine or server, set:
 

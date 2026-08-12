@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Lightweight repository sanity checks for the cleaned artifact."""
+"""Lightweight repository sanity checks for the cleaned release."""
 
 from __future__ import annotations
 
@@ -68,7 +68,7 @@ def check_forbidden_paths() -> list[str]:
     errors = []
     for rel_path in FORBIDDEN_PATHS:
         if (ROOT / rel_path).exists():
-            errors.append(f"Generated/local artifact should be removed or ignored: {rel_path}")
+            errors.append(f"Generated/local output should be removed or ignored: {rel_path}")
     return errors
 
 
