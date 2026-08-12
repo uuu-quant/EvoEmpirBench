@@ -1001,14 +1001,14 @@
       <div class="shell">
         <div class="section-heading">
           <h2>Learning Before / After</h2>
-          <p>Learning traces show the causal chain Agent-ExpVer is designed to create: an early failure, a compact memory, a validation check, and a safer later policy.</p>
+          <p>These before/after traces are executed by the local environments. The only difference is the policy: a short-sighted rollout versus a memory-conditioned rollout using verified experience.</p>
         </div>
         <div class="learning-layout">
           <article class="learning-card">
             <div class="learning-card-header">
               <div>
-                <h3>Maze Navigation: from blind sprinting to tool-aware exploration</h3>
-                <p>The first run rushes through unrevealed tiles and collides with risk. The second run opens slowly, collects tools, and only crosses danger after the route is known.</p>
+                <h3>Maze Navigation: from goal rush to key-aware completion</h3>
+                <p>The first policy walks to the goal corridor without the required key. The second policy collects tools and the key first, then reaches the goal through the same environment rules.</p>
               </div>
               <span class="pill">learning trace</span>
             </div>
@@ -1023,9 +1023,9 @@
                     <canvas id="mazeBeforeCanvas" width="760" height="568" aria-label="Risky maze rollout before Agent-ExpVer memory"></canvas>
                   </div>
                   <div class="compare-metrics">
-                    <div class="compare-metric"><strong>dead end</strong><span>outcome</span></div>
-                    <div class="compare-metric"><strong>2</strong><span>lives lost</span></div>
-                    <div class="compare-metric"><strong>0/4</strong><span>tools used</span></div>
+                    <div class="compare-metric"><strong>locked goal</strong><span>outcome</span></div>
+                    <div class="compare-metric"><strong>no key</strong><span>missing rule</span></div>
+                    <div class="compare-metric"><strong>1600</strong><span>score</span></div>
                   </div>
                 </article>
 
@@ -1038,17 +1038,17 @@
                     <canvas id="mazeAfterCanvas" width="760" height="568" aria-label="Safer maze rollout after Agent-ExpVer truth knowledge"></canvas>
                   </div>
                   <div class="compare-metrics">
-                    <div class="compare-metric"><strong>reaches exit</strong><span>outcome</span></div>
+                    <div class="compare-metric"><strong>goal reached</strong><span>outcome</span></div>
                     <div class="compare-metric"><strong>3/4</strong><span>tools held</span></div>
-                    <div class="compare-metric"><strong>+124%</strong><span>score lift</span></div>
+                    <div class="compare-metric"><strong>3130</strong><span>score</span></div>
                   </div>
                 </article>
               </div>
               <div class="memory-chain" aria-label="Maze memory validation chain">
-                <div class="memory-step"><b>Failure signal</b><span>Large moves into shadow create unrecoverable risk near monsters.</span></div>
-                <div class="memory-step"><b>Subjective memory</b><span>Reveal around danger first; do not spend long moves through unknown cells.</span></div>
-                <div class="memory-step"><b>Validation</b><span>Replay improves survival and score, so the memory is promoted.</span></div>
-                <div class="memory-step"><b>Truth used later</b><span>Collect key tools before crossing partially observed corridors.</span></div>
+                <div class="memory-step"><b>Failure signal</b><span>The agent reaches the goal side but cannot enter because Level 3 requires a key.</span></div>
+                <div class="memory-step"><b>Subjective memory</b><span>Check key/tool prerequisites before committing to the final corridor.</span></div>
+                <div class="memory-step"><b>Validation</b><span>Replay reaches the goal and improves score under the same environment transition rules.</span></div>
+                <div class="memory-step"><b>Truth used later</b><span>Collect key and useful tools before entering a terminal region.</span></div>
               </div>
             </div>
           </article>
@@ -1072,9 +1072,9 @@
                     <canvas id="matchBeforeCanvas" width="760" height="568" aria-label="Greedy Match-2 rollout before Agent-ExpVer memory"></canvas>
                   </div>
                   <div class="compare-metrics">
-                    <div class="compare-metric"><strong>misses C</strong><span>target gap</span></div>
-                    <div class="compare-metric"><strong>3</strong><span>wasted moves</span></div>
-                    <div class="compare-metric"><strong>182</strong><span>score</span></div>
+                    <div class="compare-metric"><strong>B short</strong><span>target gap</span></div>
+                    <div class="compare-metric"><strong>0</strong><span>steps left</span></div>
+                    <div class="compare-metric"><strong>584</strong><span>score</span></div>
                   </div>
                 </article>
 
@@ -1088,8 +1088,8 @@
                   </div>
                   <div class="compare-metrics">
                     <div class="compare-metric"><strong>targets met</strong><span>outcome</span></div>
-                    <div class="compare-metric"><strong>+10</strong><span>C cleared</span></div>
-                    <div class="compare-metric"><strong>336</strong><span>score</span></div>
+                    <div class="compare-metric"><strong>7</strong><span>steps left</span></div>
+                    <div class="compare-metric"><strong>120</strong><span>score</span></div>
                   </div>
                 </article>
               </div>
@@ -1460,6 +1460,7 @@
 
   <script src="assets/cases/hard-maze-trace.js"></script>
   <script src="assets/cases/easy-match2-trace.js"></script>
+  <script src="assets/cases/learning-traces.js"></script>
   <script>
     const mazeCase = {
       grid: [[0,0,0,0,0,0,0,0,3],[0,5,0,5,0,0,0,0,0],[0,0,1,1,0,8,0,0,0],[0,0,0,5,0,0,0,0,0],[5,0,9,0,0,1,0,0,0],[6,0,7,0,0,1,1,1,0],[0,0,10,0,0,0,1,1,1],[0,0,0,0,0,0,6,1,0],[2,0,5,0,0,0,0,0,0]],
@@ -1481,89 +1482,9 @@
     const matchFrameMs = 780;
     const learningStartedAt = performance.now();
 
-    const mazeLearningCases = {
-      before: {
-        title: "Before memory: risky blind stride",
-        phaseLabel: "large moves through shadow",
-        status: "collision risk",
-        grid: [
-          [0,0,0,1,0,5,3],
-          [0,1,0,1,0,1,0],
-          [0,1,0,0,6,0,0],
-          [0,0,0,1,0,0,0],
-          [0,1,7,0,0,1,0],
-          [0,0,0,1,8,0,0],
-          [2,0,5,0,0,9,10]
-        ],
-        path: [[6,0],[5,0],[4,0],[3,0],[3,1],[3,2],[2,2],[2,3],[2,4]],
-        dangerStep: 8,
-        truth: "No verified rule yet"
-      },
-      after: {
-        title: "After truth: reveal, collect, cross",
-        phaseLabel: "tool-aware route",
-        status: "goal reached",
-        grid: [
-          [0,0,0,1,0,5,3],
-          [0,1,0,1,0,1,0],
-          [0,1,0,0,6,0,0],
-          [0,0,0,1,0,0,0],
-          [0,1,7,0,0,1,0],
-          [0,0,0,1,8,0,0],
-          [2,0,5,0,0,9,10]
-        ],
-        path: [[6,0],[6,1],[6,2],[6,3],[6,4],[6,5],[6,6],[5,6],[5,5],[5,4],[4,4],[4,3],[4,2],[3,2],[2,2],[2,3],[1,4],[0,4],[0,5],[0,6]],
-        keySteps: {magnet: 5, key: 6, sword: 9, pickaxe: 12},
-        truth: "Reveal first; collect key tools before crossing danger"
-      }
-    };
-
-    const matchLearningCases = {
-      before: {
-        title: "Before memory: greedy score",
-        phaseLabel: "clears largest group first",
-        status: "target C missing",
-        targets: {A: 8, B: 8, C: 12, D: 8},
-        board: [
-          ["D","D","D","A","B","C","C","A"],
-          ["D","D","A","A","B","C","B","A"],
-          ["B","A","A","D","D","B","B","C"],
-          ["C","B","D","D","A","A","D","D"],
-          ["C","B","B","A","A","D","D","D"],
-          ["A","A","B","C","D","D","B","B"],
-          ["C","B","C","C","A","B","B","A"],
-          ["D","A","A","B","C","C","A","A"]
-        ],
-        actions: [
-          {type: "eliminate", label: "greedy D clear", cells: [[0,0],[0,1],[0,2],[1,0],[1,1]], score: 42},
-          {type: "eliminate", label: "greedy A clear", cells: [[3,4],[3,5],[4,3],[4,4]], score: 76},
-          {type: "eliminate", label: "low-target B clear", cells: [[5,6],[5,7],[6,5],[6,6]], score: 104}
-        ],
-        counts: {A: 4, B: 4, C: 2, D: 5}
-      },
-      after: {
-        title: "After truth: target-aware props",
-        phaseLabel: "save bomb for C-dense region",
-        status: "targets stabilized",
-        targets: {A: 8, B: 8, C: 12, D: 8},
-        board: [
-          ["D","B","C","C","B","C","C","A"],
-          ["B","A","C","C","B","C","B","A"],
-          ["B","A","A","D","C","C","B","C"],
-          ["C","B","D","D","C","A","D","D"],
-          ["C","B","C","A","C","D","D","D"],
-          ["A","A","C","C","D","D","B","B"],
-          ["C","B","C","C","A","B","B","A"],
-          ["D","A","A","B","C","C","A","A"]
-        ],
-        actions: [
-          {type: "bomb", label: "bomb target-C cluster", cells: [[0,2],[0,3],[1,2],[1,3],[2,4],[2,5],[3,4],[4,4],[5,2],[5,3]], center: [2,4], score: 126},
-          {type: "row", label: "row prop balances B/D", row: 6, cells: [[6,0],[6,1],[6,2],[6,3],[6,4],[6,5],[6,6],[6,7]], score: 212},
-          {type: "eliminate", label: "finish remaining A", cells: [[7,1],[7,2],[7,6],[7,7]], score: 336}
-        ],
-        counts: {A: 8, B: 10, C: 14, D: 9}
-      }
-    };
+    let learningTraces = window.EVOEMPIRBENCH_LEARNING_TRACES || null;
+    let mazeLearningCases = learningTraces ? learningTraces.maze : null;
+    let matchLearningCases = learningTraces ? learningTraces.match2 : null;
 
     function roundedRect(ctx, x, y, w, h, r) {
       const radius = Math.min(r, w / 2, h / 2);
@@ -1784,42 +1705,60 @@
       if (value === 10) drawKey(ctx, x, y, radius * 0.88);
     }
 
-    function drawLearningMaze(canvasId, scenario, now) {
+    function getTracePlayback(trace, now, startedAt, defaultFrameMs = 700) {
+      const frames = trace && Array.isArray(trace.frames) ? trace.frames : [];
+      if (!frames.length) return null;
+      const frameMs = trace.frameMs || defaultFrameMs;
+      const elapsed = Math.max(0, now - startedAt);
+      const phase = (elapsed / frameMs) % frames.length;
+      const index = Math.floor(phase);
+      return {
+        frame: frames[index],
+        nextFrame: frames[Math.min(index + 1, frames.length - 1)],
+        index,
+        total: frames.length,
+        blend: phase - index
+      };
+    }
+
+    function drawLearningMaze(canvasId, trace, now) {
       const canvas = document.getElementById(canvasId);
-      if (!canvas) return;
+      if (!canvas || !trace) return;
+      const playback = getTracePlayback(trace, now, learningStartedAt, 620);
+      if (!playback) return;
       const ctx = canvas.getContext("2d");
       const width = canvas.width;
       const height = canvas.height;
-      const grid = scenario.grid;
+      const frame = playback.frame;
+      const nextFrame = playback.nextFrame || frame;
+      const grid = frame.grid || [];
+      const vision = frame.vision || null;
       const n = grid.length;
+      if (!n) return;
       const elapsed = (now - learningStartedAt) / 1000;
-      const stepPhase = (elapsed * 1.45) % scenario.path.length;
-      const stepIndex = Math.floor(stepPhase);
-      const blend = stepPhase - stepIndex;
-      const current = scenario.path[stepIndex];
-      const next = scenario.path[Math.min(stepIndex + 1, scenario.path.length - 1)];
       const pad = 34;
-      const cell = Math.min((width - pad * 2) / n, (height - 94) / n);
+      const cell = Math.min((width - pad * 2) / n, (height - 112) / n);
       const left = 34;
-      const top = 68;
+      const top = 74;
+      const isAfter = trace.policy === "after";
       ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = "#f6f9fd";
       ctx.fillRect(0, 0, width, height);
       ctx.fillStyle = "#172033";
-      ctx.font = "800 23px ui-sans-serif";
+      ctx.font = "800 21px ui-sans-serif";
       ctx.textAlign = "left";
-      ctx.fillText(scenario.title, left, 30);
+      ctx.textBaseline = "alphabetic";
+      ctx.fillText(trace.title, left, 30);
       ctx.fillStyle = "#667085";
-      ctx.font = "700 15px ui-sans-serif";
-      ctx.fillText(`${scenario.phaseLabel} | ${scenario.status}`, left, 54);
+      ctx.font = "700 14px ui-sans-serif";
+      ctx.fillText(`${trace.phaseLabel} | ${trace.status}`, left, 54);
 
       for (let r = 0; r < n; r += 1) {
         for (let c = 0; c < n; c += 1) {
           const x = left + c * cell;
           const y = top + r * cell;
           const value = grid[r][c];
-          const dist = Math.abs(r - current[0]) + Math.abs(c - current[1]);
-          const visible = scenario === mazeLearningCases.after ? dist <= 3 || r >= 4 : dist <= 2 || r === 6;
+          const visible = !vision || !vision[r] || vision[r][c] === 1;
           ctx.fillStyle = visible ? "#ffffff" : "#e9eef6";
           if (value === 1) ctx.fillStyle = visible ? "#30394b" : "#d9e1ec";
           roundedRect(ctx, x + 2, y + 2, cell - 4, cell - 4, 8);
@@ -1832,50 +1771,60 @@
             ctx.fillRect(x + 2, y + 2, cell - 4, cell - 4);
           }
           if (visible && value !== 0 && value !== 1 && value !== 2) {
-            drawMazeIcon(ctx, value, x + cell / 2, y + cell / 2, cell * 0.32, {
-              glow: scenario === mazeLearningCases.after && value === 5,
+            drawMazeIcon(ctx, value, x + cell / 2, y + cell / 2, cell * 0.31, {
+              glow: value === 5 || (isAfter && value === 10),
               pulse: (Math.sin(elapsed * 4) + 1) / 2
             });
           }
         }
       }
 
-      const traveled = scenario.path.slice(0, stepIndex + 1);
-      ctx.strokeStyle = scenario === mazeLearningCases.before ? "#e6505b" : "#35a36b";
-      ctx.lineWidth = 5;
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-      ctx.beginPath();
-      traveled.forEach(([r, c], i) => {
-        const [x, y] = [left + c * cell + cell / 2, top + r * cell + cell / 2];
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-      ctx.stroke();
-
-      const agentRow = current[0] + (next[0] - current[0]) * blend;
-      const agentCol = current[1] + (next[1] - current[1]) * blend;
-      const ax = left + agentCol * cell + cell / 2;
-      const ay = top + agentRow * cell + cell / 2;
-      drawAgentToken(ctx, ax, ay, cell * 0.25, scenario === mazeLearningCases.before ? "#e6505b" : "#456fd6");
-
-      if (scenario.dangerStep && stepIndex >= scenario.dangerStep - 1) {
-        const [mx, my] = [left + 4 * cell + cell / 2, top + 2 * cell + cell / 2];
-        ctx.strokeStyle = `rgba(230, 80, 91, ${0.35 + Math.sin(elapsed * 8) * 0.18})`;
-        ctx.lineWidth = 8;
+      const path = trace.frames.slice(0, playback.index + 1).map(item => item.pos).filter(Boolean);
+      if (path.length > 1) {
+        ctx.strokeStyle = isAfter ? "#35a36b" : "#e6505b";
+        ctx.lineWidth = 5;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
         ctx.beginPath();
-        ctx.arc(mx, my, cell * 0.55, 0, Math.PI * 2);
+        path.forEach(([r, c], i) => {
+          const x = left + c * cell + cell / 2;
+          const y = top + r * cell + cell / 2;
+          if (i === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
         ctx.stroke();
       }
 
+      const current = frame.pos || [0, 0];
+      const next = nextFrame.pos || current;
+      const agentRow = current[0] + (next[0] - current[0]) * playback.blend;
+      const agentCol = current[1] + (next[1] - current[1]) * playback.blend;
+      const ax = left + agentCol * cell + cell / 2;
+      const ay = top + agentRow * cell + cell / 2;
+      drawAgentToken(ctx, ax, ay, cell * 0.23, isAfter ? "#456fd6" : "#e6505b");
+
+      if (frame.event === "goal_locked_without_key") {
+        ctx.strokeStyle = `rgba(230, 80, 91, ${0.45 + Math.sin(elapsed * 8) * 0.2})`;
+        ctx.lineWidth = 7;
+        const gx = left + 10 * cell + cell / 2;
+        const gy = top + 0 * cell + cell / 2;
+        ctx.beginPath();
+        ctx.arc(gx, gy, cell * 0.55, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      const footerY = height - 62;
       ctx.fillStyle = "#ffffff";
-      roundedRect(ctx, left, height - 56, width - left * 2, 34, 9);
+      roundedRect(ctx, left, footerY, width - left * 2, 42, 9);
       ctx.fill();
       ctx.strokeStyle = "#d9e2ef";
       ctx.stroke();
-      ctx.fillStyle = "#456fd6";
+      ctx.fillStyle = isAfter ? "#21764c" : "#b83341";
       ctx.font = "800 13px ui-sans-serif";
-      ctx.fillText(`truth: ${scenario.truth}`, left + 12, height - 35);
+      const actionText = frame.actionName ? `${playback.index}/${playback.total - 1} ${frame.actionName}` : `0/${playback.total - 1} start`;
+      ctx.fillText(`${actionText} | score ${frame.score} | reward ${frame.reward}`, left + 12, footerY + 17);
+      ctx.fillStyle = "#456fd6";
+      ctx.fillText(`truth: ${trace.truth}`, left + 12, footerY + 34);
     }
 
     function drawMatchTile(ctx, x, y, cell, key, colors, options = {}) {
@@ -1929,66 +1878,94 @@
         ctx.lineTo(left + cell * 8, y + cell / 2);
         ctx.stroke();
       }
+      if (type === "col" && Number.isFinite(action.col)) {
+        const x = left + action.col * cell;
+        ctx.fillStyle = `rgba(47, 183, 202, ${0.12 + pulse * 0.2})`;
+        roundedRect(ctx, x + 4, top - 4, cell - 8, cell * 8 + 8, 10);
+        ctx.fill();
+        ctx.strokeStyle = `rgba(47, 183, 202, ${0.5 + pulse * 0.35})`;
+        ctx.lineWidth = 5;
+        ctx.beginPath();
+        ctx.moveTo(x + cell / 2, top);
+        ctx.lineTo(x + cell / 2, top + cell * 8);
+        ctx.stroke();
+      }
     }
 
-    function drawLearningMatch(canvasId, scenario, now) {
+    function drawLearningMatch(canvasId, trace, now) {
       const canvas = document.getElementById(canvasId);
-      if (!canvas) return;
+      if (!canvas || !trace) return;
+      const playback = getTracePlayback(trace, now, learningStartedAt, 760);
+      if (!playback) return;
       const ctx = canvas.getContext("2d");
       const width = canvas.width;
       const height = canvas.height;
-      const elapsed = (now - learningStartedAt) / 1000;
-      const actionPhase = (elapsed * 0.72) % scenario.actions.length;
-      const actionIndex = Math.floor(actionPhase);
-      const phase = actionPhase - actionIndex;
-      const action = scenario.actions[actionIndex];
-      const board = scenario.board;
+      const frame = playback.frame;
+      const phase = playback.blend;
+      const clearPhase = phase > 0.34 && phase < 0.72;
+      const board = phase >= 0.72 ? frame.afterBoard : frame.beforeBoard;
+      const action = frame.action || {};
       const colors = {A: "#e95464", B: "#7bd5ce", C: "#a8d885", D: "#f2cf5b"};
       const n = board.length;
+      if (!n) return;
       const top = 76;
-      const cell = Math.min((width - 72) / n, (height - 142) / n);
+      const cell = Math.min((width - 72) / n, (height - 154) / n);
       const left = (width - cell * n) / 2;
+      const isAfter = trace.policy === "after";
       ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = "#f6f9fd";
       ctx.fillRect(0, 0, width, height);
       ctx.fillStyle = "#172033";
-      ctx.font = "800 23px ui-sans-serif";
+      ctx.font = "800 21px ui-sans-serif";
       ctx.textAlign = "left";
-      ctx.fillText(scenario.title, left, 30);
+      ctx.textBaseline = "alphabetic";
+      ctx.fillText(trace.title, left, 30);
       ctx.fillStyle = "#667085";
-      ctx.font = "700 15px ui-sans-serif";
-      ctx.fillText(`${scenario.phaseLabel} | ${scenario.status}`, left, 54);
+      ctx.font = "700 14px ui-sans-serif";
+      ctx.fillText(`${trace.phaseLabel} | ${trace.status}`, left, 54);
 
       for (let r = 0; r < n; r += 1) {
         for (let c = 0; c < n; c += 1) {
           const x = left + c * cell;
           const y = top + r * cell;
-          const clearing = phase > 0.34 && phase < 0.72 && isClearedCell(action.cells, r, c);
-          const highlight = isClearedCell(action.cells, r, c);
+          const clearing = clearPhase && isClearedCell(frame.clearCells, r, c);
+          const highlight = isClearedCell(frame.clearCells, r, c);
           const scale = clearing ? 1 - Math.sin((phase - 0.34) / 0.38 * Math.PI) * 0.32 : 1;
           drawMatchTile(ctx, x, y, cell, board[r][c], colors, {clearing, highlight, scale});
         }
       }
 
       if (phase > 0.18 && phase < 0.82) {
-        drawPropEffect(ctx, action.type, action, left, top, cell, phase);
+        const effectAction = {
+          type: action.type,
+          cells: frame.clearCells || [],
+          center: action.pos,
+          row: action.index,
+          col: action.index
+        };
+        drawPropEffect(ctx, action.type, effectAction, left, top, cell, phase);
       }
 
+      const footerY = height - 58;
       ctx.fillStyle = "#ffffff";
-      roundedRect(ctx, left, height - 54, cell * n, 36, 9);
+      roundedRect(ctx, left, footerY, cell * n, 40, 9);
       ctx.fill();
       ctx.strokeStyle = "#d9e2ef";
       ctx.stroke();
-      ctx.fillStyle = action.type === "bomb" ? "#e6505b" : action.type === "row" ? "#456fd6" : "#667085";
-      ctx.font = "800 14px ui-sans-serif";
-      ctx.fillText(`${actionIndex + 1}/${scenario.actions.length} ${action.label} | score ${action.score}`, left + 12, height - 31);
+      const actionLabel = action.type === "eliminate" ? `${action.type} [${(action.pos || []).join(",")}]` : `${action.type} ${action.index ?? (action.pos || []).join(",")}`;
+      ctx.fillStyle = isAfter ? "#21764c" : "#b83341";
+      ctx.font = "800 13px ui-sans-serif";
+      ctx.fillText(`${playback.index + 1}/${playback.total} ${actionLabel} | score ${frame.scoreAfter}`, left + 12, footerY + 17);
+      ctx.fillStyle = "#456fd6";
+      ctx.fillText(`truth: ${trace.truth}`, left + 12, footerY + 34);
 
       const keys = ["A", "B", "C", "D"];
+      const counts = phase >= 0.72 ? frame.countsAfter : frame.countsBefore;
       keys.forEach((key, i) => {
         const x = left + i * ((cell * n) / 4);
         const y = top + cell * n + 24;
-        const count = scenario.counts[key] || 0;
-        const target = scenario.targets[key] || 0;
+        const count = counts[key] || 0;
+        const target = trace.targets[key] || 0;
         ctx.fillStyle = colors[key];
         roundedRect(ctx, x, y - 16, 20, 20, 6);
         ctx.fill();
