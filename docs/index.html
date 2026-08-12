@@ -105,14 +105,18 @@
     }
 
     .hero {
-      padding: 72px 0 28px;
+      padding: 50px 0 34px;
     }
 
-    .hero-grid {
+    .hero-head {
       display: grid;
-      grid-template-columns: minmax(0, 0.96fr) minmax(360px, 1.04fr);
+      grid-template-columns: minmax(0, 1fr) 280px;
       gap: 34px;
-      align-items: center;
+      align-items: end;
+    }
+
+    .hero-copy {
+      max-width: 900px;
     }
 
     .eyebrow {
@@ -127,24 +131,50 @@
     }
 
     h1 {
-      margin: 16px 0 16px;
-      font-size: clamp(46px, 8vw, 86px);
-      line-height: 0.94;
+      margin: 14px 0 8px;
+      font-size: clamp(56px, 8vw, 104px);
+      line-height: 0.9;
       letter-spacing: 0;
+    }
+
+    .paper-title {
+      max-width: 850px;
+      margin: 0;
+      color: #26334a;
+      font-size: clamp(26px, 4vw, 46px);
+      font-weight: 850;
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    .no-break {
+      white-space: nowrap;
     }
 
     .subtitle {
       max-width: 760px;
-      margin: 0;
+      margin: 18px 0 0;
       color: #48556a;
       font-size: clamp(18px, 2.4vw, 22px);
+    }
+
+    .authors {
+      max-width: 820px;
+      margin: 16px 0 0;
+      color: #5f6f86;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .authors strong {
+      color: var(--ink);
     }
 
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
-      margin-top: 26px;
+      margin-top: 24px;
     }
 
     .button {
@@ -167,24 +197,37 @@
       color: white;
     }
 
-    .stats-strip {
+    .hero-summary {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      margin-top: 34px;
-      max-width: 670px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.82);
+      padding: 14px;
+      box-shadow: 0 16px 36px rgba(23, 32, 51, 0.07);
+    }
+
+    .hero-summary-note {
+      padding: 12px 12px 10px;
+      border-radius: 10px;
+      background: #edf4ff;
+      color: #2a4f9d;
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
     }
 
     .stat {
-      padding: 14px 14px 12px;
+      padding: 13px 12px 11px;
       border: 1px solid var(--line);
-      border-radius: 8px;
-      background: rgba(255, 255, 255, 0.76);
+      border-radius: 10px;
+      background: #ffffff;
     }
 
     .stat strong {
       display: block;
-      font-size: 24px;
+      font-size: 26px;
       line-height: 1;
     }
 
@@ -195,29 +238,85 @@
       font-size: 13px;
     }
 
-    .workflow-card {
-      overflow: hidden;
+    .hero-stage {
+      margin-top: 30px;
       border: 1px solid var(--line);
-      border-radius: 10px;
+      border-radius: 16px;
       background: var(--panel);
-      box-shadow: var(--shadow);
+      box-shadow: 0 22px 60px rgba(23, 32, 51, 0.1);
+      overflow: hidden;
     }
 
-    .workflow-card img {
-      display: block;
-      width: 100%;
-      height: auto;
+    .stage-header {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 22px;
+      padding: 16px 18px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcff;
     }
 
-    .card-label {
+    .stage-header h2 {
+      font-size: clamp(24px, 3vw, 34px);
+    }
+
+    .stage-header p {
+      max-width: 540px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .stage-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      background: var(--line);
+      gap: 1px;
+    }
+
+    .stage-panel {
+      min-width: 0;
+      padding: 14px;
+      background: #f8fbff;
+    }
+
+    .stage-panel-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      padding: 12px 14px;
-      border-top: 1px solid var(--line);
+      margin-bottom: 12px;
+    }
+
+    .stage-panel-top h3 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .stage-canvas {
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 8px;
+      overflow: hidden;
+    }
+
+    .stage-canvas canvas {
+      aspect-ratio: 16 / 10;
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .stage-caption {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 10px;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
+      font-weight: 700;
     }
 
     .section {
@@ -850,7 +949,8 @@
     }
 
     @media (max-width: 900px) {
-      .hero-grid,
+      .hero-head,
+      .stage-grid,
       .case-grid,
       .before-after-grid,
       .three-grid,
@@ -891,11 +991,29 @@
         padding-top: 46px;
       }
 
-      .stats-strip,
+      h1 {
+        font-size: clamp(46px, 18vw, 72px);
+      }
+
+      .paper-title {
+        font-size: clamp(24px, 10vw, 34px);
+      }
+
+      .hero-summary,
       .metric-row,
       .compare-metrics,
       .memory-chain {
         grid-template-columns: 1fr;
+      }
+
+      .stage-header,
+      .stage-caption {
+        display: block;
+      }
+
+      .stage-header p,
+      .stage-caption span + span {
+        margin-top: 8px;
       }
 
       .table-header {
@@ -924,76 +1042,66 @@
 
   <main id="top">
     <section class="hero">
-      <div class="shell hero-grid">
-        <div>
-          <span class="eyebrow">AAAI 2026 Poster Paper</span>
-          <h1>Dynamic Spatial Reasoning with Agent-ExpVer</h1>
-          <p class="subtitle">
-            EvoEmpirBench evaluates how language-model agents plan, use tools, and adapt from verified experience in partially observable spatial environments.
-          </p>
-          <div class="hero-actions">
-            <a class="button primary" href="https://doi.org/10.1609/aaai.v40i43.40979">Paper</a>
-            <a class="button" href="https://arxiv.org/abs/2509.12718">arXiv</a>
-            <a class="button" href="https://github.com/uuu-quant/EvoEmpirBench">Code</a>
+      <div class="shell">
+        <div class="hero-head">
+          <div class="hero-copy">
+            <span class="eyebrow">AAAI 2026 Poster Paper</span>
+            <h1>EvoEmpirBench</h1>
+            <p class="paper-title">Dynamic Spatial Reasoning with <span class="no-break">Agent-ExpVer</span></p>
+            <p class="authors"><strong>Pukun Zhao</strong>, Longxiang Wang, Miaowei Wang, Chen Chen, Fanqing Zhou, Haojian Huang</p>
+            <p class="subtitle">
+              A dynamic benchmark where language-model agents plan, use tools, and adapt from verified experience in partially observable spatial environments.
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="https://doi.org/10.1609/aaai.v40i43.40979">Paper</a>
+              <a class="button" href="https://arxiv.org/abs/2509.12718">arXiv</a>
+              <a class="button" href="https://github.com/uuu-quant/EvoEmpirBench">Code</a>
+            </div>
           </div>
-          <div class="stats-strip" aria-label="Benchmark summary">
+          <div class="hero-summary" aria-label="Benchmark summary">
+            <div class="hero-summary-note">released benchmark</div>
             <div class="stat"><strong>2</strong><span>interactive environments</span></div>
             <div class="stat"><strong>210</strong><span>released benchmark levels</span></div>
             <div class="stat"><strong>0</strong><span>parameter updates required</span></div>
           </div>
         </div>
-        <figure class="workflow-card">
-          <img src="assets/figures/agent-workflow.png" alt="Agent-ExpVer workflow across Maze Navigation and Match-2 tasks">
-          <figcaption class="card-label">
-            <span>GeoLink interacts, InsightForce validates, TruthWeaver maintains reusable truth knowledge.</span>
-            <span>Agent-ExpVer</span>
-          </figcaption>
-        </figure>
-      </div>
-    </section>
 
-    <section class="section" id="cases">
-      <div class="shell">
-        <div class="section-heading">
-          <h2>Classic Cases</h2>
-          <p>These panels are rendered from local run logs: a looping Level 3 maze trajectory and a looping Match-2 action trace with animated environment changes.</p>
+        <div class="hero-stage" id="cases" aria-label="Classic EvoEmpirBench case previews">
+          <div class="stage-header">
+            <div>
+              <h2>Classic Case Previews</h2>
+            </div>
+            <p>Two live trace renderings from the released environments: tool-aware maze navigation and target-aware Match-2 elimination.</p>
+          </div>
+          <div class="stage-grid">
+            <article class="stage-panel">
+              <div class="stage-panel-top">
+                <h3>Maze Navigation</h3>
+                <span class="pill">Level 3</span>
+              </div>
+              <div class="stage-canvas">
+                <canvas id="heroMazeCanvas" width="900" height="560" aria-label="Hero preview of a Maze Navigation trace"></canvas>
+              </div>
+              <div class="stage-caption">
+                <span>Partial observation, moving hazards, tools, key, and terminal goal.</span>
+                <span id="heroMazeMeta">trace playback</span>
+              </div>
+            </article>
+            <article class="stage-panel">
+              <div class="stage-panel-top">
+                <h3>Match-2 Elimination</h3>
+                <span class="pill">easy level 05</span>
+              </div>
+              <div class="stage-canvas">
+                <canvas id="heroMatchCanvas" width="900" height="560" aria-label="Hero preview of a Match-2 trace"></canvas>
+              </div>
+              <div class="stage-caption">
+                <span>Connected-color clears, target deficits, step budget, and prop timing.</span>
+                <span id="heroMatchMeta">trace playback</span>
+              </div>
+            </article>
+          </div>
         </div>
-        <div class="case-grid">
-          <article class="case-card">
-            <div class="case-top">
-              <h3>Maze Navigation: Level 3 rollout</h3>
-              <span class="pill">log-rendered</span>
-            </div>
-            <div class="case-body">
-              <div class="canvas-wrap">
-                <canvas id="mazeCanvas" width="820" height="820" aria-label="Rendered maze trajectory from a Level 3 run"></canvas>
-              </div>
-              <div class="metric-row">
-                <div class="metric"><strong id="mazeScore">4910</strong><span>current score</span></div>
-                <div class="metric"><strong id="mazeSteps">16</strong><span>steps used</span></div>
-                <div class="metric"><strong id="mazeTools">3/4</strong><span>tools held</span></div>
-              </div>
-            </div>
-          </article>
-
-          <article class="case-card">
-            <div class="case-top">
-              <h3>Match-2: high-clearance episode</h3>
-              <span class="pill">trace playback</span>
-            </div>
-            <div class="case-body">
-              <div class="canvas-wrap">
-                <canvas id="matchCanvas" width="820" height="820" aria-label="Rendered Match-2 board from a high-scoring run"></canvas>
-              </div>
-              <div class="metric-row">
-                <div class="metric"><strong id="matchScore">664</strong><span>current score</span></div>
-                <div class="metric"><strong id="matchCleared">95</strong><span>tiles cleared</span></div>
-                <div class="metric"><strong id="matchScorePerStep">41.5</strong><span>score per step</span></div>
-              </div>
-            </div>
-          </article>
-        </div>
-
       </div>
     </section>
 
@@ -1177,7 +1285,7 @@
               <text x="846" y="243" fill="#667085" font-size="13" font-weight="700">replay to test metric improvement</text>
 
               <rect x="176" y="344" width="236" height="104" rx="16" fill="#ffffff" stroke="#d9e2ef" filter="url(#soft-shadow)"></rect>
-              <text x="202" y="382" fill="#2fb7ca" font-size="13" font-weight="900">TRACE ARTIFACTS</text>
+              <text x="202" y="382" fill="#2fb7ca" font-size="13" font-weight="900">TRACE RECORDS</text>
               <text x="202" y="412" fill="#172033" font-size="22" font-weight="900">State-action logs</text>
               <text x="202" y="436" fill="#667085" font-size="13" font-weight="700">observations, rewards, metrics</text>
 
@@ -1503,6 +1611,11 @@
     }
 
     function updateMetric(id, value) {
+      const node = document.getElementById(id);
+      if (node) node.textContent = value;
+    }
+
+    function updateText(id, value) {
       const node = document.getElementById(id);
       if (node) node.textContent = value;
     }
@@ -1975,23 +2088,29 @@
       });
     }
 
-    function drawMaze(now = performance.now()) {
-      const canvas = document.getElementById("mazeCanvas");
+    function drawMazePreview(canvasId, now = performance.now(), options = {}) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
       const ctx = canvas.getContext("2d");
-      const size = canvas.width;
+      const width = canvas.width;
+      const height = canvas.height;
       const playback = getMazePlayback(now);
       const frame = playback.frame;
       const grid = frame.grid || mazeCase.grid;
       const vision = frame.vision || mazeCase.vision || null;
       const path = playback.path.length ? playback.path : mazeCase.path;
       const pathIndex = Math.min(playback.index, path.length - 1);
-      ctx.clearRect(0, 0, size, size);
+      ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = "#f6f9fd";
-      ctx.fillRect(0, 0, size, size);
+      ctx.fillRect(0, 0, width, height);
 
-      const pad = 44;
       const n = grid.length;
-      const cell = (size - pad * 2) / n;
+      const topPad = options.compact ? 46 : 76;
+      const bottomPad = options.compact ? 42 : 58;
+      const sidePad = options.compact ? 26 : 50;
+      const cell = Math.min((width - sidePad * 2) / n, (height - topPad - bottomPad) / n);
+      const boardLeft = (width - cell * n) / 2;
+      const boardTop = topPad;
       const colors = {
         0: "#ffffff",
         1: "#2f394a",
@@ -2007,8 +2126,8 @@
 
       for (let r = 0; r < n; r += 1) {
         for (let c = 0; c < n; c += 1) {
-          const x = pad + c * cell;
-          const y = pad + r * cell;
+          const x = boardLeft + c * cell;
+          const y = boardTop + r * cell;
           const value = grid[r][c];
           const visible = !vision || !vision[r] || vision[r][c] === 1;
           ctx.fillStyle = visible ? (colors[value] || "#ffffff") : "#eef2f7";
@@ -2039,7 +2158,8 @@
       if (drawnPath.length > 1) {
         ctx.beginPath();
         drawnPath.forEach(([r, c], i) => {
-          const [x, y] = cellCenter(pad, cell, r, c);
+          const x = boardLeft + c * cell + cell / 2;
+          const y = boardTop + r * cell + cell / 2;
           if (i === 0) ctx.moveTo(x, y);
           else ctx.lineTo(x, y);
         });
@@ -2051,7 +2171,8 @@
       }
 
       drawnPath.forEach(([r, c], i) => {
-        const [x, y] = cellCenter(pad, cell, r, c);
+        const x = boardLeft + c * cell + cell / 2;
+        const y = boardTop + r * cell + cell / 2;
         ctx.fillStyle = i === drawnPath.length - 1 ? "#fff" : "#ffffff";
         ctx.strokeStyle = "#e6505b";
         ctx.lineWidth = 3;
@@ -2061,23 +2182,28 @@
         ctx.stroke();
       });
 
-      const [agentX, agentY] = cellCenter(pad, cell, agentRow, agentCol);
+      const agentX = boardLeft + agentCol * cell + cell / 2;
+      const agentY = boardTop + agentRow * cell + cell / 2;
       drawAgentToken(ctx, agentX, agentY, Math.max(12, cell * 0.22), "#456fd6");
 
       ctx.fillStyle = "#172033";
-      ctx.font = "800 28px ui-sans-serif";
+      ctx.font = `800 ${options.compact ? 21 : 28}px ui-sans-serif`;
       ctx.textAlign = "left";
       ctx.textBaseline = "alphabetic";
-      ctx.fillText(mazeTrace ? "Level 3 trace loop" : "Level 3 trajectory", pad, 30);
+      ctx.fillText(options.title || (mazeTrace ? "Level 3 trace loop" : "Level 3 trajectory"), boardLeft, options.compact ? 28 : 32);
       ctx.fillStyle = "#667085";
-      ctx.font = "600 18px ui-sans-serif";
+      ctx.font = `700 ${options.compact ? 13 : 18}px ui-sans-serif`;
       const totalFrames = playback.frames.length || path.length;
       const score = frame.score ?? 4910;
-      ctx.fillText(`frame ${Math.min(pathIndex + 1, totalFrames)} / ${totalFrames} | score ${score}`, pad, size - 18);
+      const meta = `${options.metaPrefix || "frame"} ${Math.min(pathIndex + 1, totalFrames)} / ${totalFrames} | score ${score}`;
+      ctx.fillText(meta, boardLeft, height - 18);
+      updateText("heroMazeMeta", meta);
 
-      updateMazeMetric("mazeScore", score);
-      updateMazeMetric("mazeSteps", frame.steps ?? pathIndex);
-      updateMazeMetric("mazeTools", frame.tools ? `${countTools(frame.tools)}/4` : "3/4");
+      if (options.metrics) {
+        updateMazeMetric("mazeScore", score);
+        updateMazeMetric("mazeSteps", frame.steps ?? pathIndex);
+        updateMazeMetric("mazeTools", frame.tools ? `${countTools(frame.tools)}/4` : "3/4");
+      }
     }
 
     function getMatchPlayback(now) {
@@ -2098,10 +2224,12 @@
       return Array.isArray(cells) && cells.some(([r, c]) => r === row && c === col);
     }
 
-    function drawMatch(now = performance.now()) {
-      const canvas = document.getElementById("matchCanvas");
+    function drawMatchPreview(canvasId, now = performance.now(), options = {}) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
       const ctx = canvas.getContext("2d");
-      const size = canvas.width;
+      const width = canvas.width;
+      const height = canvas.height;
       const playback = getMatchPlayback(now);
       const frame = playback ? playback.frame : null;
       const clearPhase = frame && playback.phase >= 0.34 && playback.phase < 0.62;
@@ -2113,16 +2241,16 @@
       const displayCounts = frame ? (afterPhase ? frame.countsAfter : frame.countsBefore) : matchCase.counts;
       const displaySteps = frame ? (afterPhase ? frame.stepsAfter : frame.stepsBefore) : 0;
       const targets = matchTrace ? matchTrace.targets : matchCase.targets;
-      ctx.clearRect(0, 0, size, size);
+      ctx.clearRect(0, 0, width, height);
       ctx.fillStyle = "#f6f9fd";
-      ctx.fillRect(0, 0, size, size);
+      ctx.fillRect(0, 0, width, height);
 
       const n = board.length;
-      const padX = 50;
-      const topPad = 76;
-      const bottomPad = 58;
-      const cell = Math.min((size - padX * 2) / n, (size - topPad - bottomPad) / n);
-      const boardLeft = (size - cell * n) / 2;
+      const padX = options.compact ? 26 : 50;
+      const topPad = options.compact ? 52 : 76;
+      const bottomPad = options.compact ? 56 : 58;
+      const cell = Math.min((width - padX * 2) / n, (height - topPad - bottomPad) / n);
+      const boardLeft = (width - cell * n) / 2;
       const boardTop = topPad;
       const colors = {A: "#e95464", B: "#7bd5ce", C: "#a8d885", D: "#f2cf5b"};
 
@@ -2169,22 +2297,24 @@
       }
 
       ctx.fillStyle = "#172033";
-      ctx.font = "800 28px ui-sans-serif";
+      ctx.font = `800 ${options.compact ? 21 : 28}px ui-sans-serif`;
       ctx.textAlign = "left";
       ctx.textBaseline = "alphabetic";
-      ctx.fillText(matchTrace ? "Easy Match-2 trace loop" : "Easy level 05 final board", boardLeft, 32);
+      ctx.fillText(options.title || (matchTrace ? "Easy Match-2 trace loop" : "Easy level 05 final board"), boardLeft, options.compact ? 28 : 32);
 
+      let meta = "loaded level preview";
       if (frame) {
         const actionText = `${afterPhase ? "after" : clearPhase ? "clearing" : "before"} action ${playback.index + 1}/${playback.total} | ${action.type} ${action.pos ? `[${action.pos.join(",")}]` : action.index} | +${frame.cleared}`;
         ctx.fillStyle = "#667085";
-        ctx.font = "600 17px ui-sans-serif";
-        ctx.fillText(actionText, boardLeft, 58);
+        ctx.font = `700 ${options.compact ? 12 : 17}px ui-sans-serif`;
+        ctx.fillText(actionText, boardLeft, options.compact ? 46 : 58);
+        meta = actionText;
       }
 
       const keys = ["A", "B", "C", "D"];
       keys.forEach((key, i) => {
         const x = boardLeft + i * ((cell * n) / 4);
-        const y = size - 32;
+        const y = height - 32;
         ctx.fillStyle = colors[key];
         roundedRect(ctx, x, y - 22, 24, 24, 6);
         ctx.fill();
@@ -2193,24 +2323,34 @@
         ctx.textAlign = "left";
         ctx.fillText(`${key}: ${displayCounts[key] || 0}/${targets[key]}`, x + 32, y - 10);
       });
+      updateText("heroMatchMeta", meta);
 
       const usedSteps = frame ? ((matchTrace.metrics.maxSteps || 16) - displaySteps) : 16;
-      updateMetric("matchScore", displayScore);
-      updateMetric("matchCleared", Object.values(displayCounts).reduce((sum, value) => sum + value, 0));
-      updateMetric("matchScorePerStep", usedSteps > 0 ? (displayScore / usedSteps).toFixed(1) : "0.0");
+      if (options.metrics) {
+        updateMetric("matchScore", displayScore);
+        updateMetric("matchCleared", Object.values(displayCounts).reduce((sum, value) => sum + value, 0));
+        updateMetric("matchScorePerStep", usedSteps > 0 ? (displayScore / usedSteps).toFixed(1) : "0.0");
+      }
     }
 
     function animateMaze(now) {
       drawLearningMaze("mazeBeforeCanvas", mazeLearningCases.before, now);
       drawLearningMaze("mazeAfterCanvas", mazeLearningCases.after, now);
-      drawMaze(now);
+      drawMazePreview("heroMazeCanvas", now, {
+        title: "Maze Navigation trace",
+        metaPrefix: "frame",
+        compact: true
+      });
       window.requestAnimationFrame(animateMaze);
     }
 
     function animateMatch(now) {
       drawLearningMatch("matchBeforeCanvas", matchLearningCases.before, now);
       drawLearningMatch("matchAfterCanvas", matchLearningCases.after, now);
-      drawMatch(now);
+      drawMatchPreview("heroMatchCanvas", now, {
+        title: "Match-2 trace",
+        compact: true
+      });
       window.requestAnimationFrame(animateMatch);
     }
 
@@ -2237,8 +2377,8 @@
       drawLearningMaze("mazeAfterCanvas", mazeLearningCases.after, now);
       drawLearningMatch("matchBeforeCanvas", matchLearningCases.before, now);
       drawLearningMatch("matchAfterCanvas", matchLearningCases.after, now);
-      drawMaze();
-      drawMatch();
+      drawMazePreview("heroMazeCanvas", now, {title: "Maze Navigation trace", metaPrefix: "frame", compact: true});
+      drawMatchPreview("heroMatchCanvas", now, {title: "Match-2 trace", compact: true});
     });
   </script>
 </body>
